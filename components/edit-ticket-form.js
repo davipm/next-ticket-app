@@ -15,7 +15,7 @@ const startingTicketData = {
 const categories = [
   "Hardware Problem",
   "Software Problem",
-  "Application Deveopment",
+  "Application Development",
   "Project",
 ];
 
