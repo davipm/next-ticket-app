@@ -70,7 +70,15 @@ export function EditTicketForm({ ticket }) {
       <form onSubmit={onSubmit} className="flex flex-col gap-3 w-1/2">
         <h3>{EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
 
-        {/* TODO: finish the Form */}
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          onChange={onChange}
+          required={true}
+          value={formData.title}
+        />
       </form>
     </div>
   );
