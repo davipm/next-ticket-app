@@ -1,9 +1,9 @@
 "use client";
 
 import axios from "axios";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 
 const categories = [
   "Hardware Problem",
@@ -15,41 +15,21 @@ const categories = [
 export function EditTicketForm({ ticket }) {
   const EDIT_MODE = ticket._id !== "new";
   const router = useRouter();
+  const queryClient = useQueryClient();
 
-  const startingTicketData = {
-    title: "",
-    description: "",
-    priority: 1,
-    progress: 0,
-    status: "not started",
-    category: "Hardware Problem",
-  };
-
-  if (EDIT_MODE) {
-    startingTicketData["title"] = ticket.title;
-    startingTicketData["description"] = ticket.description;
-    startingTicketData["priority"] = ticket.priority;
-    startingTicketData["progress"] = ticket.progress;
-    startingTicketData["status"] = ticket.status;
-    startingTicketData["category"] = ticket.category;
-  }
-
-  const [formData, setFormData] = useState(startingTicketData);
-
-  const onChange = (event) => {
-    const { value } = event.target;
-    const { name } = event.target;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  const { register, handleSubmit, watch } = useForm({
+    defaultValues: {
+      title: EDIT_MODE ? ticket.title : "",
+      description: EDIT_MODE ? ticket.description : "",
+      priority: EDIT_MODE ? ticket.priority : 1,
+      progress: EDIT_MODE ? ticket.progress : 0,
+      status: EDIT_MODE ? ticket.status : "not started",
+      category: EDIT_MODE ? ticket.category : "Hardware Problem",
+    },
+  });
 
   const { mutate } = useMutation({
-    mutationFn: (event) => {
-      event.preventDefault();
-
+    mutationFn: (formData) => {
       axios({
         method: EDIT_MODE ? "put" : "post",
         url: `/api/tickets/${EDIT_MODE ? ticket._id : ""}`,
@@ -58,6 +38,7 @@ export function EditTicketForm({ ticket }) {
     },
     onSuccess: () => {
       router.push("/");
+      queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
     onError: () => {
       console.log(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);
@@ -66,37 +47,24 @@ export function EditTicketForm({ ticket }) {
 
   return (
     <div className="flex justify-center">
-      <form onSubmit={mutate} className="flex flex-col gap-3 w-1/2">
+      <form
+        onSubmit={handleSubmit(mutate)}
+        className="flex flex-col gap-3 w-1/2"
+      >
         <h3>{EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
 
         <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          id="title"
-          name="title"
-          onChange={onChange}
-          required={true}
-          value={formData.title}
-        />
+        <input type="text" {...register("title", { required: true })} />
 
         <label htmlFor="description">Description</label>
         <textarea
-          name="description"
-          id="description"
           cols="30"
           rows="5"
-          onChange={onChange}
-          required={true}
-          value={formData.description}
+          {...register("description", { required: true })}
         />
 
         <label htmlFor="category">Category</label>
-        <select
-          name="category"
-          id="category"
-          onChange={onChange}
-          value={formData.category}
-        >
+        <select name="category" id="category" {...register("category")}>
           {categories?.map((category, index) => (
             <option value={category} key={index}>
               {category}
@@ -110,11 +78,9 @@ export function EditTicketForm({ ticket }) {
             <label htmlFor={`priority-${index + 1}`} key={index}>
               <input
                 type="radio"
-                name="priority"
-                id={`priority-${index + 1}`}
-                onChange={onChange}
                 value={index + 1}
-                defaultChecked={formData.priority === index + 1}
+                defaultChecked={parseInt(watch("priority")) === index + 1}
+                {...register("priority")}
               />
               {index + 1}
             </label>
@@ -126,19 +92,11 @@ export function EditTicketForm({ ticket }) {
           type="range"
           id="progress"
           name="progress"
-          value={formData.progress}
-          min={0}
-          max={100}
-          onChange={onChange}
+          {...register("progress", { min: 0, max: 100, required: true })}
         />
 
         <label>Status</label>
-        <select
-          name="status"
-          id="status"
-          value={formData.status}
-          onChange={onChange}
-        >
+        <select name="status" id="status" {...register("status")}>
           <option value="not started">Not Started</option>
           <option value="started">Started</option>
           <option value="done">Done</option>
