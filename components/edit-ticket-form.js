@@ -79,6 +79,75 @@ export function EditTicketForm({ ticket }) {
           required={true}
           value={formData.title}
         />
+
+        <label htmlFor="description">Description</label>
+        <textarea
+          name="description"
+          id="description"
+          cols="30"
+          rows="5"
+          onChange={onChange}
+          required={true}
+          value={formData.description}
+        />
+
+        <label htmlFor="category">Category</label>
+        <select
+          name="category"
+          id="category"
+          onChange={onChange}
+          value={formData.category}
+        >
+          {categories?.map((category, index) => (
+            <option value={category} key={index}>
+              {category}
+            </option>
+          ))}
+        </select>
+
+        <label>Priority</label>
+        <div>
+          {Array.from({ length: 5 }, (_, index) => (
+            <>
+              <input
+                type="radio"
+                name="priority"
+                id={`priority-${index + 1}`}
+                onChange={onChange}
+                value={index + 1}
+                checked={formData.priority === index + 1}
+              />
+              <label htmlFor="prioarity-1">{index + 1}</label>
+            </>
+          ))}
+        </div>
+
+        <label>Progress</label>
+        <input
+          type="range"
+          id="progress"
+          name="progress"
+          value={formData.progress}
+          min={0}
+          max={100}
+          onChange={onChange}
+        />
+
+        <label>Status</label>
+        <select
+          name="status"
+          id="status"
+          value={formData.status}
+          onChange={onChange}
+        >
+          <option value="not started">Not Started</option>
+          <option value="started">Started</option>
+          <option value="done">Done</option>
+        </select>
+
+        <button type="submit" className="btn max-w-xs">
+          {EDIT_MODE ? "Update Ticket" : "Create Ticket"}
+        </button>
       </form>
     </div>
   );
