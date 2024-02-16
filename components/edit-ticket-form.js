@@ -1,10 +1,19 @@
 "use client";
 
+import axios from "axios";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+
+const categories = [
+  "Hardware Problem",
+  "Software Problem",
+  "Application Development",
+  "Project",
+];
 
 export function EditTicketForm({ ticket }) {
-  const EDIT_MODE = ticket.id !== "new";
+  const EDIT_MODE = ticket._id !== "new";
   const router = useRouter();
 
   const startingTicketData = {
@@ -15,13 +24,6 @@ export function EditTicketForm({ ticket }) {
     status: "not started",
     category: "Hardware Problem",
   };
-
-  const categories = [
-    "Hardware Problem",
-    "Software Problem",
-    "Application Development",
-    "Project",
-  ];
 
   if (EDIT_MODE) {
     startingTicketData["title"] = ticket.title;
@@ -44,30 +46,27 @@ export function EditTicketForm({ ticket }) {
     }));
   };
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const { mutate } = useMutation({
+    mutationFn: (event) => {
+      event.preventDefault();
 
-    const response = await fetch(
-      `/api/tickets/${EDIT_MODE ? ticket._id : ""}`,
-      {
-        method: EDIT_MODE ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ formData }),
-      },
-    );
-
-    if (!response.ok)
-      throw new Error(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);
-
-    router.refresh();
-    router.push("/");
-  };
+      axios({
+        method: EDIT_MODE ? "put" : "post",
+        url: `/api/tickets/${EDIT_MODE ? ticket._id : ""}`,
+        data: JSON.stringify({ formData }),
+      });
+    },
+    onSuccess: () => {
+      router.push("/");
+    },
+    onError: () => {
+      console.log(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);
+    },
+  });
 
   return (
     <div className="flex justify-center">
-      <form onSubmit={onSubmit} className="flex flex-col gap-3 w-1/2">
+      <form onSubmit={mutate} className="flex flex-col gap-3 w-1/2">
         <h3>{EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
 
         <label htmlFor="title">Title</label>
@@ -108,17 +107,17 @@ export function EditTicketForm({ ticket }) {
         <label>Priority</label>
         <div>
           {Array.from({ length: 5 }, (_, index) => (
-            <>
+            <label htmlFor={`priority-${index + 1}`} key={index}>
               <input
                 type="radio"
                 name="priority"
                 id={`priority-${index + 1}`}
                 onChange={onChange}
                 value={index + 1}
-                checked={formData.priority === index + 1}
+                defaultChecked={formData.priority === index + 1}
               />
-              <label htmlFor="prioarity-1">{index + 1}</label>
-            </>
+              {index + 1}
+            </label>
           ))}
         </div>
 
