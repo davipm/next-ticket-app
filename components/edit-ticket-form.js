@@ -3,25 +3,25 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const startingTicketData = {
-  title: "",
-  description: "",
-  priority: 1,
-  progress: 0,
-  status: "not started",
-  category: "Hardware Problem",
-};
-
-const categories = [
-  "Hardware Problem",
-  "Software Problem",
-  "Application Development",
-  "Project",
-];
-
 export function EditTicketForm({ ticket }) {
   const EDIT_MODE = ticket.id !== "new";
   const router = useRouter();
+
+  const startingTicketData = {
+    title: "",
+    description: "",
+    priority: 1,
+    progress: 0,
+    status: "not started",
+    category: "Hardware Problem",
+  };
+
+  const categories = [
+    "Hardware Problem",
+    "Software Problem",
+    "Application Development",
+    "Project",
+  ];
 
   if (EDIT_MODE) {
     startingTicketData["title"] = ticket.title;
