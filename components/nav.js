@@ -12,7 +12,7 @@ export function Nav() {
             className="text-default-text text-xl"
           />
         </Link>
-        <Link href="/ticket/new">
+        <Link href="/create-ticket">
           <FontAwesomeIcon
             icon={faTicket}
             className="text-default-text text-xl"
