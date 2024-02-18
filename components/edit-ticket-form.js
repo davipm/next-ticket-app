@@ -13,18 +13,18 @@ const categories = [
 ];
 
 export function EditTicketForm({ ticket }) {
-  const EDIT_MODE = ticket._id !== "new";
+  const EDIT_MODE = ticket?._id !== undefined;
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const { register, handleSubmit, watch } = useForm({
     defaultValues: {
-      title: EDIT_MODE ? ticket.title : "",
-      description: EDIT_MODE ? ticket.description : "",
-      priority: EDIT_MODE ? ticket.priority : 1,
-      progress: EDIT_MODE ? ticket.progress : 0,
-      status: EDIT_MODE ? ticket.status : "not started",
-      category: EDIT_MODE ? ticket.category : "Hardware Problem",
+      title: ticket?.title || "",
+      description: ticket?.description || "",
+      priority: ticket?.priority || 1,
+      progress: ticket?.progress || 0,
+      status: ticket?.status || "not started",
+      category: ticket?.category || "Hardware Problem",
     },
   });
 

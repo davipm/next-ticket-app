@@ -16,15 +16,8 @@ const getTicketById = async (id) => {
 
 let updateTicketData = {};
 
-export default async function Ticket({ params }) {
-  const EDIT_MODE = params.id !== "new";
+export default async function Ticket({ params: { id } }) {
+  const ticket = await getTicketById(id)
 
-  if (EDIT_MODE) {
-    updateTicketData = await getTicketById(params.id);
-    updateTicketData = updateTicketData.foundTicket;
-  } else {
-    updateTicketData = { _id: "new" };
-  }
-
-  return <EditTicketForm ticket={updateTicketData} />;
+  return <EditTicketForm ticket={ticket.foundTicket} />;
 }
