@@ -4,6 +4,26 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+  FormField,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
 
 const categories = [
   "Hardware Problem",
@@ -23,7 +43,7 @@ export function EditTicketForm({ ticket }) {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const { register, handleSubmit, watch } = useForm({
+  const form = useForm({
     defaultValues: {
       title: ticket?.title || "",
       description: ticket?.description || "",
@@ -53,67 +73,166 @@ export function EditTicketForm({ ticket }) {
 
   return (
     <div className="flex justify-center">
-      <form
-        onSubmit={handleSubmit(mutate)}
-        className="flex flex-col gap-3 w-1/2"
-      >
-        <h3>{EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(mutate)}
+          className="flex flex-col gap-3 w-1/2"
+        >
+          <h3 className="font-bold mt-5 text-3xl">
+            {EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}
+          </h3>
 
-        <label htmlFor="title">Title</label>
-        <input type="text" {...register("title", { required: true })} />
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input {...field} className="bg-custom-card m-1 rounded p1" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <label htmlFor="description">Description</label>
-        <textarea
-          cols="30"
-          rows="5"
-          {...register("description", { required: true })}
-        />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Type your Description here."
+                    id="message"
+                    className="bg-custom-card text-white placeholder-white"
+                    cols="30"
+                    rows="5"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <label htmlFor="category">Category</label>
-        <select name="category" id="category" {...register("category")}>
-          {categories?.map((category, index) => (
-            <option value={category} key={index}>
-              {category}
-            </option>
-          ))}
-        </select>
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="bg-custom-card">
+                      <SelectValue placeholder="Select a verified email to display" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {categories?.map((category, index) => (
+                      <SelectItem value={category} key={index}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <label>Priority</label>
-        <div>
-          {Array.from({ length: 5 }, (_, index) => (
-            <label htmlFor={`priority-${index + 1}`} key={index}>
-              <input
-                type="radio"
-                value={index + 1}
-                defaultChecked={parseInt(watch("priority")) === index + 1}
-                {...register("priority")}
-              />
-              {index + 1}
-            </label>
-          ))}
-        </div>
+          <FormField
+            control={form.control}
+            name="priority"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Priority</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {Array.from({ length: 5 }, (_, index) => (
+                      <FormItem
+                        key={index}
+                        className="flex items-center space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={index + 1} />
+                        </FormControl>
+                        <FormLabel className="font-normal">
+                          Level {index + 1}
+                        </FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <label>Progress</label>
-        <input
-          type="range"
-          id="progress"
-          name="progress"
-          {...register("progress", { min: 0, max: 100, required: true })}
-        />
+          <FormField
+            control={form.control}
+            name="progress"
+            render={({ field: { value, onChange } }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <FormControl>
+                  <Slider
+                    min={0}
+                    max={100}
+                    step={1}
+                    defaultValue={[value]}
+                    onValueChange={(vals) => {
+                      onChange(vals[0]);
+                    }}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <label>Status</label>
-        <select name="status" id="status" {...register("status")}>
-          {status.map(({ value, name }, index) => (
-            <option value={value} key={index}>
-              {name}
-            </option>
-          ))}
-        </select>
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem className="space-y-3">
+                <FormLabel>Status</FormLabel>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    className="flex flex-col space-y-1"
+                  >
+                    {status.map(({ value, name }, index) => (
+                      <FormItem
+                        key={index}
+                        className="flex items-center space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <RadioGroupItem value={value} />
+                        </FormControl>
+                        <FormLabel className="font-normal">{name}</FormLabel>
+                      </FormItem>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <button type="submit" className="btn max-w-xs">
-          {EDIT_MODE ? "Update Ticket" : "Create Ticket"}
-        </button>
-      </form>
+          <Button type="submit" className="max-w-xs bg-custom-card mt-5">
+            {EDIT_MODE ? "Update Ticket" : "Create Ticket"}
+          </Button>
+        </form>
+      </Form>
     </div>
   );
 }

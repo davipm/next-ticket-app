@@ -30,7 +30,7 @@ export function TicketsList() {
       {data.tickets &&
         uniqueCategories.map((uniqueCategory, categoryIndex) => (
           <div key={categoryIndex} className="mb-4">
-            <h2>{uniqueCategory}</h2>
+            <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
             <div className="lg:grid grid-cols-2 xl:grid-cols-4">
               {data.tickets
                 .filter((ticket) => ticket.category === uniqueCategory)
