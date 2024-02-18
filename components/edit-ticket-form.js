@@ -12,6 +12,12 @@ const categories = [
   "Project",
 ];
 
+const status = [
+  { value: "not started", name: "Not Started" },
+  { value: "started", name: "Started" },
+  { value: "done", name: "Done" },
+];
+
 export function EditTicketForm({ ticket }) {
   const EDIT_MODE = ticket?._id !== undefined;
   const router = useRouter();
@@ -97,9 +103,11 @@ export function EditTicketForm({ ticket }) {
 
         <label>Status</label>
         <select name="status" id="status" {...register("status")}>
-          <option value="not started">Not Started</option>
-          <option value="started">Started</option>
-          <option value="done">Done</option>
+          {status.map(({ value, name }, index) => (
+            <option value={value} key={index}>
+              {name}
+            </option>
+          ))}
         </select>
 
         <button type="submit" className="btn max-w-xs">

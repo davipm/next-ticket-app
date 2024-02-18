@@ -26,7 +26,7 @@ export function TicketsList() {
   ];
 
   return (
-    <div>
+    <>
       {data.tickets &&
         uniqueCategories.map((uniqueCategory, categoryIndex) => (
           <div key={categoryIndex} className="mb-4">
@@ -40,6 +40,6 @@ export function TicketsList() {
             </div>
           </div>
         ))}
-    </div>
+    </>
   );
 }
