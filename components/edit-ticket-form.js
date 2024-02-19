@@ -64,10 +64,10 @@ export function EditTicketForm({ ticket }) {
         data: JSON.stringify({ formData }),
       });
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["tickets"] });
       router.push("/");
       toast.success(`Ticket ${EDIT_MODE ? "updated" : "created"} with success`);
-      queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
     onError: () => {
       toast.error(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);

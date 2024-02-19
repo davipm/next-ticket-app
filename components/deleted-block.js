@@ -13,9 +13,9 @@ export function DeletedBlock({ id }) {
     mutationFn: () => {
       return axios.delete(`/api/tickets/${id}`);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["tickets"] });
       toast.success("Ticket was removed!");
-      queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });
 
