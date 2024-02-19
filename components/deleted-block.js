@@ -2,8 +2,7 @@
 
 import axios from "axios";
 import { toast } from "sonner";
-import { faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { X } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function DeletedBlock({ id }) {
@@ -20,10 +19,10 @@ export function DeletedBlock({ id }) {
   });
 
   return (
-    <FontAwesomeIcon
-      icon={faX}
-      className="text-red-400 hover:cursor-pointer hover:text-red-200"
+    <X
+      className="text-red-400 cursor-pointer hover:text-red-200 transition"
       onClick={mutate}
+      size={25}
     />
   );
 }

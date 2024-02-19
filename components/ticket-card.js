@@ -23,7 +23,7 @@ export function TicketCard({ tickets }) {
   }, [tickets.createdAt]);
 
   return (
-    <div className="flex flex-col hover:bg-card-hover bg-custom-card rounded-md shadow-lg p-3 m-2">
+    <div className="flex flex-col hover:bg-card-hover transition duration-300 bg-custom-card rounded-md shadow-lg p-3 m-2">
       <div className="flex mb-3">
         <PriorityDisplay priority={tickets.priority} />
         <div className="ml-auto">

@@ -1,22 +1,15 @@
 import Link from "next/link";
-import { faHome, faTicket } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Home, TicketPlus } from "lucide-react";
 
 export function Nav() {
   return (
     <nav className="flex justify-between bg-nav p-4">
       <div className="flex items-center space-x-4">
         <Link href="/">
-          <FontAwesomeIcon
-            icon={faHome}
-            className="text-default-text text-xl"
-          />
+          <Home size={25} className="stroke-white" />
         </Link>
         <Link href="/create-ticket">
-          <FontAwesomeIcon
-            icon={faTicket}
-            className="text-default-text text-xl"
-          />
+          <TicketPlus size={25} className="stroke-white" />
         </Link>
       </div>
 
