@@ -4,6 +4,20 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Form,
   FormItem,
@@ -12,18 +26,6 @@ import {
   FormMessage,
   FormField,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Slider } from "@/components/ui/slider";
-import { Button } from "@/components/ui/button";
 
 const categories = [
   "Hardware Problem",
@@ -64,10 +66,11 @@ export function EditTicketForm({ ticket }) {
     },
     onSuccess: () => {
       router.push("/");
+      toast.success(`Ticket ${EDIT_MODE ? "updated" : "created"} with success`);
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
     onError: () => {
-      console.log(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);
+      toast.error(`Failed to ${EDIT_MODE ? "update" : "create"} ticket`);
     },
   });
 
@@ -106,7 +109,6 @@ export function EditTicketForm({ ticket }) {
                   <Textarea
                     {...field}
                     placeholder="Type your Description here."
-                    id="message"
                     className="bg-custom-card text-white placeholder-white"
                     cols="30"
                     rows="5"
@@ -120,13 +122,10 @@ export function EditTicketForm({ ticket }) {
           <FormField
             control={form.control}
             name="category"
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <FormItem>
                 <FormLabel>Category</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={onChange} defaultValue={value}>
                   <FormControl>
                     <SelectTrigger className="bg-custom-card">
                       <SelectValue placeholder="Select a verified email to display" />
@@ -148,13 +147,13 @@ export function EditTicketForm({ ticket }) {
           <FormField
             control={form.control}
             name="priority"
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <FormItem className="space-y-3">
                 <FormLabel>Priority</FormLabel>
                 <FormControl>
                   <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={onChange}
+                    defaultValue={value}
                     className="flex flex-col space-y-1"
                   >
                     {Array.from({ length: 5 }, (_, index) => (
@@ -165,7 +164,7 @@ export function EditTicketForm({ ticket }) {
                         <FormControl>
                           <RadioGroupItem value={index + 1} />
                         </FormControl>
-                        <FormLabel className="font-normal">
+                        <FormLabel className="font-normal cursor-pointer">
                           Level {index + 1}
                         </FormLabel>
                       </FormItem>
@@ -201,13 +200,13 @@ export function EditTicketForm({ ticket }) {
           <FormField
             control={form.control}
             name="status"
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <FormItem className="space-y-3">
                 <FormLabel>Status</FormLabel>
                 <FormControl>
                   <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    onValueChange={onChange}
+                    defaultValue={value}
                     className="flex flex-col space-y-1"
                   >
                     {status.map(({ value, name }, index) => (
@@ -218,7 +217,9 @@ export function EditTicketForm({ ticket }) {
                         <FormControl>
                           <RadioGroupItem value={value} />
                         </FormControl>
-                        <FormLabel className="font-normal">{name}</FormLabel>
+                        <FormLabel className="font-normal cursor-pointer">
+                          {name}
+                        </FormLabel>
                       </FormItem>
                     ))}
                   </RadioGroup>

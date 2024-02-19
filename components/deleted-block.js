@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import { toast } from "sonner";
 import { faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +14,7 @@ export function DeletedBlock({ id }) {
       return axios.delete(`/api/tickets/${id}`);
     },
     onSuccess: () => {
+      toast.success("Ticket was removed!");
       queryClient.invalidateQueries({ queryKey: ["tickets"] });
     },
   });

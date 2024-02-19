@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { Nav } from "@/components/nav";
 import { QueryProvider } from "@/providers/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -26,6 +27,7 @@ export default function RootLayout({ children }) {
               {children}
             </div>
           </div>
+          <Toaster richColors />
         </QueryProvider>
       </body>
     </html>
