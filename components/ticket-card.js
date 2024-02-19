@@ -27,14 +27,11 @@ export function TicketCard({ tickets }) {
       <div className="flex mb-3">
         <PriorityDisplay priority={tickets.priority} />
         <div className="ml-auto">
-          <DeletedBlock id={tickets._id} />
+          <DeletedBlock id={tickets.id} />
         </div>
       </div>
 
-      <Link
-        href={`/edit-ticket/${tickets._id}`}
-        style={{ display: "contents" }}
-      >
+      <Link href={`/edit-ticket/${tickets.id}`} style={{ display: "contents" }}>
         <h4 className="mb-1">{tickets.title}</h4>
         <hr className="h-px border-0 bg-page mb-2" />
         <p>{tickets.description}</p>

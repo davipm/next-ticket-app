@@ -41,7 +41,7 @@ const status = [
 ];
 
 export function EditTicketForm({ ticket }) {
-  const EDIT_MODE = ticket?._id !== undefined;
+  const EDIT_MODE = ticket?.id !== undefined;
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -60,7 +60,7 @@ export function EditTicketForm({ ticket }) {
     mutationFn: (formData) => {
       axios({
         method: EDIT_MODE ? "put" : "post",
-        url: `/api/tickets/${EDIT_MODE ? ticket._id : ""}`,
+        url: `/api/tickets/${EDIT_MODE ? ticket.id : ""}`,
         data: JSON.stringify({ formData }),
       });
     },
