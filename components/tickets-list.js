@@ -6,11 +6,7 @@ import { TicketCard } from "@/components/ticket-card";
 import { useMemo } from "react";
 
 export function TicketsList() {
-  const {
-    data: tickets,
-    isPending,
-    isError,
-  } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: ["tickets"],
     queryFn: async () => {
       const { data } = await axios.get("/api/tickets");
@@ -20,8 +16,8 @@ export function TicketsList() {
 
   const uniqueCategories = useMemo(() => {
     if (isPending || isError) return;
-    return [...new Set(tickets.map(({ category }) => category))];
-  }, [isError, isPending, tickets]);
+    return [...new Set(data.map(({ category }) => category))];
+  }, [isError, isPending, data]);
 
   if (isPending) {
     return <span>Loading...</span>;
@@ -33,19 +29,18 @@ export function TicketsList() {
 
   return (
     <>
-      {tickets &&
-        uniqueCategories.map((uniqueCategory, categoryIndex) => (
-          <div key={categoryIndex} className="mb-4">
-            <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
-            <div className="lg:grid grid-cols-2 xl:grid-cols-4">
-              {tickets
-                .filter((ticket) => ticket.category === uniqueCategory)
-                .map((filteredTicket, index) => (
-                  <TicketCard tickets={filteredTicket} key={index} />
-                ))}
-            </div>
+      {uniqueCategories.map((uniqueCategory, categoryIndex) => (
+        <div key={categoryIndex} className="mb-4">
+          <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
+          <div className="lg:grid grid-cols-2 xl:grid-cols-4">
+            {data
+              .filter((ticket) => ticket.category === uniqueCategory)
+              .map((filteredTicket, index) => (
+                <TicketCard tickets={filteredTicket} key={index} />
+              ))}
           </div>
-        ))}
+        </div>
+      ))}
     </>
   );
 }
