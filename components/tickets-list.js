@@ -14,11 +14,19 @@ export function TicketsList() {
     },
   });
 
+  /**
+   * filter duplicate category
+   * @type {string[]}
+   */
   const uniqueCategories = useMemo(() => {
     if (isPending || isError) return;
     return [...new Set(data.map(({ category }) => category))];
   }, [isError, isPending, data]);
 
+  /**
+   * filter tickets by category
+   * @type {function(*): any[]}
+   */
   const categoryList = useCallback(
     (category) => {
       return data.filter((ticket) => ticket.category === category);
