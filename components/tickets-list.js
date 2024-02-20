@@ -3,15 +3,25 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { TicketCard } from "@/components/ticket-card";
+import { useMemo } from "react";
 
 export function TicketsList() {
-  const { data: tickets, isPending, isError } = useQuery({
+  const {
+    data: tickets,
+    isPending,
+    isError,
+  } = useQuery({
     queryKey: ["tickets"],
     queryFn: async () => {
       const { data } = await axios.get("/api/tickets");
       return data;
     },
   });
+
+  const uniqueCategories = useMemo(() => {
+    if (isPending || isError) return;
+    return [...new Set(tickets.map(({ category }) => category))];
+  }, [isError, isPending, tickets]);
 
   if (isPending) {
     return <span>Loading...</span>;
@@ -20,10 +30,6 @@ export function TicketsList() {
   if (isError) {
     return <span>Error...</span>;
   }
-
-  const uniqueCategories = [
-    ...new Set(tickets.map(({ category }) => category)),
-  ];
 
   return (
     <>
