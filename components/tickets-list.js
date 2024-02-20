@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { TicketCard } from "@/components/ticket-card";
 
 export function TicketsList() {
-  const { data, isPending, isError } = useQuery({
+  const { data: tickets, isPending, isError } = useQuery({
     queryKey: ["tickets"],
     queryFn: async () => {
       const { data } = await axios.get("/api/tickets");
@@ -22,17 +22,17 @@ export function TicketsList() {
   }
 
   const uniqueCategories = [
-    ...new Set(data.tickets.map(({ category }) => category)),
+    ...new Set(tickets.map(({ category }) => category)),
   ];
 
   return (
     <>
-      {data.tickets &&
+      {tickets &&
         uniqueCategories.map((uniqueCategory, categoryIndex) => (
           <div key={categoryIndex} className="mb-4">
             <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
             <div className="lg:grid grid-cols-2 xl:grid-cols-4">
-              {data.tickets
+              {tickets
                 .filter((ticket) => ticket.category === uniqueCategory)
                 .map((filteredTicket, index) => (
                   <TicketCard tickets={filteredTicket} key={index} />
