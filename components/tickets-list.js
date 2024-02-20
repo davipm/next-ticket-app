@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { TicketCard } from "@/components/ticket-card";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 export function TicketsList() {
   const { data, isPending, isError } = useQuery({
@@ -19,6 +19,13 @@ export function TicketsList() {
     return [...new Set(data.map(({ category }) => category))];
   }, [isError, isPending, data]);
 
+  const categoryList = useCallback(
+    (category) => {
+      return data.filter((ticket) => ticket.category === category);
+    },
+    [data],
+  );
+
   if (isPending) {
     return <span>Loading...</span>;
   }
@@ -33,11 +40,9 @@ export function TicketsList() {
         <div key={categoryIndex} className="mb-4">
           <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
           <div className="lg:grid grid-cols-2 xl:grid-cols-4">
-            {data
-              .filter((ticket) => ticket.category === uniqueCategory)
-              .map((filteredTicket, index) => (
-                <TicketCard tickets={filteredTicket} key={index} />
-              ))}
+            {categoryList(uniqueCategory).map((filteredTicket, index) => (
+              <TicketCard tickets={filteredTicket} key={index} />
+            ))}
           </div>
         </div>
       ))}
