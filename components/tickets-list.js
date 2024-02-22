@@ -1,38 +1,16 @@
 "use client";
 
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { TicketCard } from "@/components/ticket-card";
-import { useCallback, useMemo } from "react";
+import { useTickets } from "@/hooks/use-tickets";
 
 export function TicketsList() {
-  const { data, isPending, isError } = useQuery({
-    queryKey: ["tickets"],
-    queryFn: async () => {
-      const { data } = await axios.get("/api/tickets");
-      return data;
-    },
-  });
+  const { data, isPending, isError } = useTickets();
 
-  /**
-   * filter duplicate category
-   * @type {string[]}
-   */
-  const uniqueCategories = useMemo(() => {
-    if (isPending || isError) return;
-    return [...new Set(data.map(({ category }) => category))];
-  }, [isError, isPending, data]);
+  const uniqueCategories = [...new Set(data?.map(({ category }) => category))];
 
-  /**
-   * filter tickets by category
-   * @type {function(*): any[]}
-   */
-  const categoryList = useCallback(
-    (category) => {
-      return data.filter((ticket) => ticket.category === category);
-    },
-    [data],
-  );
+  const categoryList = (category) => {
+    return data?.filter((ticket) => ticket.category === category);
+  };
 
   if (isPending) {
     return <span>Loading...</span>;
