@@ -36,7 +36,7 @@ export function TicketCard({ tickets }) {
         <hr className="mb-2 h-px border-0 bg-page" />
         <p>{tickets.description}</p>
 
-        <div className="flex-grow" />
+        <div className="grow" />
         <div className="mt-2 flex">
           <div className="flex flex-col">
             <p className="my-1 text-xs">{createDateTime}</p>
