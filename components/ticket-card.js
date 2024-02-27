@@ -31,7 +31,7 @@ export function TicketCard({ tickets }) {
         </div>
       </div>
 
-      <Link href={`/edit-ticket/${tickets.id}`} style={{ display: "contents" }}>
+      <Link href={`/edit-ticket/${tickets.id}`} className="contents">
         <h4 className="mb-1">{tickets.title}</h4>
         <hr className="mb-2 h-px border-0 bg-page" />
         <p>{tickets.description}</p>
