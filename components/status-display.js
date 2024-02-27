@@ -16,12 +16,7 @@ export function StatusDisplay({ status }) {
   }, []);
 
   return (
-    <span
-      className={cn(
-        "inline-block  rounded-full px-2 py-1 text-xs font-semibold text-gray-700",
-        getColor(status),
-      )}
-    >
+    <span className={cn("inline-block  rounded-full px-2 py-1 text-xs font-semibold text-gray-700", getColor(status))}>
       {status}
     </span>
   );

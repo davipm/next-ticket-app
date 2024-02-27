@@ -23,8 +23,8 @@ export function TicketCard({ tickets }) {
   }, [tickets.createdAt]);
 
   return (
-    <div className="flex flex-col hover:bg-card-hover transition duration-300 bg-custom-card rounded-md shadow-lg p-3 m-2">
-      <div className="flex mb-3">
+    <div className="m-2 flex flex-col rounded-md bg-custom-card p-3 shadow-lg transition duration-300 hover:bg-card-hover">
+      <div className="mb-3 flex">
         <PriorityDisplay priority={tickets.priority} />
         <div className="ml-auto">
           <DeletedBlock id={tickets.id} />
@@ -33,13 +33,13 @@ export function TicketCard({ tickets }) {
 
       <Link href={`/edit-ticket/${tickets.id}`} style={{ display: "contents" }}>
         <h4 className="mb-1">{tickets.title}</h4>
-        <hr className="h-px border-0 bg-page mb-2" />
+        <hr className="mb-2 h-px border-0 bg-page" />
         <p>{tickets.description}</p>
 
         <div className="flex-grow" />
-        <div className="flex mt-2">
+        <div className="mt-2 flex">
           <div className="flex flex-col">
-            <p className="text-xs my-1">{createDateTime}</p>
+            <p className="my-1 text-xs">{createDateTime}</p>
             <ProgressDisplay progress={tickets.progress} />
           </div>
           <div className="ml-auto flex items-end">

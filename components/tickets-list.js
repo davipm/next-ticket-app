@@ -1,8 +1,8 @@
 "use client";
 
+import { useCallback, useMemo } from "react";
 import { TicketCard } from "@/components/ticket-card";
 import { useTickets } from "@/hooks/use-tickets";
-import { useCallback, useMemo } from "react";
 
 export function TicketsList() {
   const { data, isPending, isError } = useTickets();
@@ -11,12 +11,10 @@ export function TicketsList() {
     return [...new Set(data?.map(({ category }) => category))];
   }, [data]);
 
-  const categoryList = useCallback(
-    (category) => {
-      return data?.filter((ticket) => ticket.category === category);
-    },
-    [data]
-  );
+  // prettier-ignore
+  const categoryList = useCallback((category) => {
+    return data?.filter((ticket) => ticket.category === category);
+  }, [data]);
 
   if (isPending) {
     return <span>Loading...</span>;

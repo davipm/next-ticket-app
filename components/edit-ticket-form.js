@@ -11,28 +11,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Form,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-  FormField,
-} from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Form, FormItem, FormLabel, FormControl, FormMessage, FormField } from "@/components/ui/form";
 
-const categories = [
-  "Hardware Problem",
-  "Software Problem",
-  "Application Development",
-  "Project",
-];
+const categories = ["Hardware Problem", "Software Problem", "Application Development", "Project"];
 
 const status = [
   { value: "not started", name: "Not Started" },
@@ -77,13 +59,8 @@ export function EditTicketForm({ ticket }) {
   return (
     <div className="flex justify-center">
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(mutate)}
-          className="flex flex-col gap-3 w-1/2"
-        >
-          <h3 className="font-bold mt-5 text-3xl">
-            {EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}
-          </h3>
+        <form onSubmit={form.handleSubmit(mutate)} className="flex w-1/2 flex-col gap-3">
+          <h3 className="mt-5 text-3xl font-bold">{EDIT_MODE ? "Update Your Ticket" : "Create New Ticket"}</h3>
 
           <FormField
             control={form.control}
@@ -92,7 +69,7 @@ export function EditTicketForm({ ticket }) {
               <FormItem>
                 <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input {...field} className="bg-custom-card m-1 rounded p1" />
+                  <Input {...field} className="p1 m-1 rounded bg-custom-card" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -151,22 +128,13 @@ export function EditTicketForm({ ticket }) {
               <FormItem className="space-y-3">
                 <FormLabel>Priority</FormLabel>
                 <FormControl>
-                  <RadioGroup
-                    onValueChange={onChange}
-                    defaultValue={value}
-                    className="flex flex-col space-y-1"
-                  >
+                  <RadioGroup onValueChange={onChange} defaultValue={value} className="flex flex-col space-y-1">
                     {Array.from({ length: 5 }, (_, index) => (
-                      <FormItem
-                        key={index}
-                        className="flex items-center space-x-3 space-y-0"
-                      >
+                      <FormItem key={index} className="flex items-center space-x-3 space-y-0">
                         <FormControl>
                           <RadioGroupItem value={index + 1} />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
-                          Level {index + 1}
-                        </FormLabel>
+                        <FormLabel className="cursor-pointer font-normal">Level {index + 1}</FormLabel>
                       </FormItem>
                     ))}
                   </RadioGroup>
@@ -204,22 +172,13 @@ export function EditTicketForm({ ticket }) {
               <FormItem className="space-y-3">
                 <FormLabel>Status</FormLabel>
                 <FormControl>
-                  <RadioGroup
-                    onValueChange={onChange}
-                    defaultValue={value}
-                    className="flex flex-col space-y-1"
-                  >
+                  <RadioGroup onValueChange={onChange} defaultValue={value} className="flex flex-col space-y-1">
                     {status.map(({ value, name }, index) => (
-                      <FormItem
-                        key={index}
-                        className="flex items-center space-x-3 space-y-0"
-                      >
+                      <FormItem key={index} className="flex items-center space-x-3 space-y-0">
                         <FormControl>
                           <RadioGroupItem value={value} />
                         </FormControl>
-                        <FormLabel className="font-normal cursor-pointer">
-                          {name}
-                        </FormLabel>
+                        <FormLabel className="cursor-pointer font-normal">{name}</FormLabel>
                       </FormItem>
                     ))}
                   </RadioGroup>
@@ -229,7 +188,7 @@ export function EditTicketForm({ ticket }) {
             )}
           />
 
-          <Button type="submit" className="max-w-xs bg-custom-card mt-5">
+          <Button type="submit" className="mt-5 max-w-xs bg-custom-card">
             {EDIT_MODE ? "Update Ticket" : "Create Ticket"}
           </Button>
         </form>

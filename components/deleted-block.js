@@ -18,11 +18,5 @@ export function DeletedBlock({ id }) {
     },
   });
 
-  return (
-    <X
-      className="text-red-400 cursor-pointer hover:text-red-200 transition"
-      onClick={mutate}
-      size={25}
-    />
-  );
+  return <X className="cursor-pointer text-red-400 transition hover:text-red-200" onClick={mutate} size={25} />;
 }

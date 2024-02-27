@@ -16,11 +16,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <QueryProvider>
-          <div className="flex flex-col h-screen max-h-screen">
+          <div className="flex h-screen max-h-screen flex-col">
             <Nav />
-            <div className="flex-grow p-5 overflow-y-auto bg-page text-default-text">
-              {children}
-            </div>
+            <div className="flex-grow overflow-y-auto bg-page p-5 text-default-text">{children}</div>
           </div>
           <Toaster richColors />
         </QueryProvider>
