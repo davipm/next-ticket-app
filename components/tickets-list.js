@@ -2,15 +2,21 @@
 
 import { TicketCard } from "@/components/ticket-card";
 import { useTickets } from "@/hooks/use-tickets";
+import { useCallback, useMemo } from "react";
 
 export function TicketsList() {
   const { data, isPending, isError } = useTickets();
 
-  const uniqueCategories = [...new Set(data?.map(({ category }) => category))];
+  const uniqueCategories = useMemo(() => {
+    return [...new Set(data?.map(({ category }) => category))];
+  }, [data]);
 
-  const categoryList = (category) => {
-    return data?.filter((ticket) => ticket.category === category);
-  };
+  const categoryList = useCallback(
+    (category) => {
+      return data?.filter((ticket) => ticket.category === category);
+    },
+    [data]
+  );
 
   if (isPending) {
     return <span>Loading...</span>;
@@ -24,8 +30,8 @@ export function TicketsList() {
     <>
       {uniqueCategories.map((uniqueCategory, categoryIndex) => (
         <div key={categoryIndex} className="mb-4">
-          <h2 className="font-bold text-3xl">{uniqueCategory}</h2>
-          <div className="lg:grid grid-cols-2 xl:grid-cols-4">
+          <h2 className="text-3xl font-bold">{uniqueCategory}</h2>
+          <div className="grid-cols-2 lg:grid xl:grid-cols-4">
             {categoryList(uniqueCategory).map((filteredTicket, index) => (
               <TicketCard tickets={filteredTicket} key={index} />
             ))}
