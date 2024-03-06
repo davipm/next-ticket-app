@@ -2,27 +2,16 @@
 
 import { useCallback, useMemo } from "react";
 import { TicketCard } from "@/components/ticket-card";
-import { useTickets } from "@/hooks/use-tickets";
 
-export function TicketsList() {
-  const { data, isPending, isError } = useTickets();
-
+export function TicketsList({ data }) {
   const uniqueCategories = useMemo(() => {
-    return [...new Set(data?.map(({ category }) => category))];
+    return [...new Set(data.map(({ category }) => category))];
   }, [data]);
 
   // prettier-ignore
   const categoryList = useCallback((category) => {
-    return data?.filter((ticket) => ticket.category === category);
+    return data.filter((ticket) => ticket.category === category);
   }, [data]);
-
-  if (isPending) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error...</span>;
-  }
 
   return (
     <>

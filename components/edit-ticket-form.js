@@ -49,6 +49,7 @@ export function EditTicketForm({ ticket }) {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["tickets"] });
       router.push("/");
+      router.refresh();
       toast.success(`Ticket ${EDIT_MODE ? "updated" : "created"} with success`);
     },
     onError: () => {
