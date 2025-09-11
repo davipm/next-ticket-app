@@ -1,24 +1,72 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js Ticket App
+
+A simple ticket management application built with Next.js. It allows users to create, view, update, and delete tickets.
+
+## Stack
+
+-   **Framework**: [Next.js](https://nextjs.org/)
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **ORM**: [Prisma](https://www.prisma.io/)
+-   **Database**: [SQLite](https://www.sqlite.org/index.html)
+-   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+-   **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
+-   **State Management**: [TanStack Query (React Query)](https://tanstack.com/query/latest)
+-   **Form Management**: [React Hook Form](https://react-hook-form.com/)
+-   **Validation**: [Zod](https://zod.dev/)
+
+## Project Structure
+
+The project follows a feature-based structure.
+
+-   `app/`: Contains the application pages and routes.
+    -   `app/tickets`: The main feature directory for ticket management.
+        -   `_components`: React components specific to tickets (e.g., forms, lists).
+        -   `_constants`: Constants used in the tickets feature.
+        -   `_services`: Server-side actions and data fetching logic using Prisma.
+        -   `_types`: TypeScript types and Zod schemas for validation.
+        -   `edit/[id]`: Page for editing a specific ticket.
+        -   `new`: Page for creating a new ticket.
+-   `components/`: Shared UI components used across the application.
+-   `lib/`: Utility functions and library initializations (e.g., Prisma client).
+-   `prisma/`: Contains the Prisma schema (`schema.prisma`), database migrations, and the SQLite database file (`dev.db`).
+-   `public/`: Static assets like images and fonts.
+-   `providers/`: React context providers for the application.
 
 ## Getting Started
 
-First, run the development server:
+Follow these instructions to get the project up and running on your local machine.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Prerequisites
+
+-   [Node.js](https://nodejs.org/en/) (version 20 or later)
+-   [npm](https://www.npmjs.com/) or your favorite package manager.
+
+### Installation & Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd next-ticket-app
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up the database:**
+    Apply the database migrations to create the necessary tables.
+    ```bash
+    npx prisma migrate dev
+    ```
+    This will also generate the Prisma Client based on your schema.
+
+4.  **Run the development server:**
+    ```bash
+    npm run dev
+    ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More
 
