@@ -1,92 +1,36 @@
-![](/img.png)
-
-# Next.js Ticket Application
-
-This is a full-stack ticket management application built with Next.js, Prisma, and a PostgreSQL database. It allows users to create, view, edit, and delete tickets.
-
-## Features
-
-- **Create, Read, Update, Delete (CRUD)** functionality for tickets.
-- **View all tickets** in a centralized list.
-- **Filter and sort** tickets by priority, category, and status.
-- **User-friendly interface** with a clean and modern design.
-
-## Tech Stack
-
-- **Framework:** [Next.js](https://nextjs.org/)
-- **ORM:** [Prisma](https://www.prisma.io/)
-- **Database:** [PostgreSQL](https://www.postgresql.org/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [Shadcn UI](https://ui.shadcn.com/)
-- **State Management:** [React Query](https://tanstack.com/query/v4)
-- **Form Handling:** [React Hook Form](https://react-hook-form.com/)
-- **Schema Validation:** [Zod](https://zod.dev/)
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
-### Prerequisites
+First, run the development server:
 
-- [Node.js](https://nodejs.org/en/) (v18 or later)
-- [npm](https://www.npmjs.com/)
-- [PostgreSQL](https://www.postgresql.org/download/)
-
-### Installation
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-username/next-ticket-app.git
-   cd next-ticket-app
-   ```
-
-2. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-3. **Set up the database:**
-
-   - Create a PostgreSQL database.
-   - Create a `.env` file in the root of the project and add your database connection string:
-
-     ```
-     DATABASE_URL="postgresql://user:password@host:port/database"
-     ```
-
-4. **Run database migrations:**
-
-   ```bash
-   npx prisma migrate dev
-   ```
-
-### Running the Application
-
-1. **Start the development server:**
-
-   ```bash
-   npm run dev
-   ```
-
-2. **Open your browser** and navigate to [http://localhost:3000](http://localhost:3000).
-
-## Available Scripts
-
-- `npm run dev`: Starts the development server.
-- `npm run build`: Creates a production build.
-- `npm run start`: Starts the production server.
-- `npm run lint`: Lints the code.
-
-## Project Structure
-
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
-/
-├── app/                # Next.js App Router pages
-│   ├── api/            # API routes
-│   ├── (components)/   # Page-specific components
-│   └── (models)/       # Database models
-├── components/         # Shared UI components
-├── lib/                # Helper functions and utilities
-├── prisma/             # Prisma schema and migrations
-└── public/             # Static assets
-```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
