@@ -1,11 +1,20 @@
 # Next.js Ticket App
 
-A simple ticket management application built with Next.js. It allows users to create, view, update, and delete tickets.
+[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Turborepo](https://img.shields.io/badge/Turborepo-EF4444?style=for-the-badge&logo=turborepo&logoColor=white)](https://turbo.build/)
+
+A simple, full-stack ticket management application built with a modern tech stack. It allows users to create, view, update, and delete tickets in a type-safe manner from end to end.
 
 ## Stack
 
--   **Framework**: [Next.js](https://nextjs.org/)
+This project is a monorepo built with Turborepo and showcases a variety of modern web development technologies:
+
+-   **Framework**: [Next.js](https://nextjs.org/) (with App Router)
 -   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **API Layer**: [oRPC](https://orpc.vercel.app/) for end-to-end type-safety.
 -   **ORM**: [Prisma](https://www.prisma.io/)
 -   **Database**: [SQLite](https://www.sqlite.org/index.html)
 -   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
@@ -13,24 +22,15 @@ A simple ticket management application built with Next.js. It allows users to cr
 -   **State Management**: [TanStack Query (React Query)](https://tanstack.com/query/latest)
 -   **Form Management**: [React Hook Form](https://react-hook-form.com/)
 -   **Validation**: [Zod](https://zod.dev/)
+-   **Monorepo Manager**: [Turborepo](https://turbo.build/)
 
 ## Project Structure
 
-The project follows a feature-based structure.
+This repository is a monorepo, organized into `apps` and `packages`.
 
--   `app/`: Contains the application pages and routes.
-    -   `app/tickets`: The main feature directory for ticket management.
-        -   `_components`: React components specific to tickets (e.g., forms, lists).
-        -   `_constants`: Constants used in the tickets feature.
-        -   `_services`: Server-side actions and data fetching logic using Prisma.
-        -   `_types`: TypeScript types and Zod schemas for validation.
-        -   `edit/[id]`: Page for editing a specific ticket.
-        -   `new`: Page for creating a new ticket.
--   `components/`: Shared UI components used across the application.
--   `lib/`: Utility functions and library initializations (e.g., Prisma client).
--   `prisma/`: Contains the Prisma schema (`schema.prisma`), database migrations, and the SQLite database file (`dev.db`).
--   `public/`: Static assets like images and fonts.
--   `providers/`: React context providers for the application.
+-   `apps/web`: The main Next.js web application. This is the user-facing part of the project.
+-   `packages/api`: A dedicated package for the API layer, built with oRPC. It defines the procedures that the frontend can call.
+-   `packages/db`: Manages the database schema using Prisma and exports the Prisma Client for use in other packages.
 
 ## Getting Started
 
@@ -39,7 +39,7 @@ Follow these instructions to get the project up and running on your local machin
 ### Prerequisites
 
 -   [Node.js](https://nodejs.org/en/) (version 20 or later)
--   [npm](https://www.npmjs.com/) or your favorite package manager.
+-   [npm](https://www.npmjs.com/) (version 10 or later recommended)
 
 ### Installation & Setup
 
@@ -50,6 +50,7 @@ Follow these instructions to get the project up and running on your local machin
     ```
 
 2.  **Install dependencies:**
+    From the root of the project, run:
     ```bash
     npm install
     ```
@@ -57,16 +58,17 @@ Follow these instructions to get the project up and running on your local machin
 3.  **Set up the database:**
     Apply the database migrations to create the necessary tables.
     ```bash
-    npx prisma migrate dev
+    npm run db:migrate
     ```
-    This will also generate the Prisma Client based on your schema.
+    This command uses Turborepo to run the `prisma migrate dev` command in the `packages/db` workspace.
 
 4.  **Run the development server:**
     ```bash
     npm run dev
     ```
+    This will start the Next.js development server for the `web` app.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3001](http://localhost:3001) with your browser to see the result.
 
 ## Learn More
 
@@ -79,6 +81,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](httpshttps://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
