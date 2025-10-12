@@ -1,5 +1,5 @@
 {
-  "name": "@next-ticket-app-1/db",
+  "name": "@next-ticket-app/db",
   "type": "module",
   "exports": {
     ".": {

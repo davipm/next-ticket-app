@@ -1,5 +1,5 @@
 {
-  "name": "next-ticket-app-1",
+  "name": "next-ticket-app",
   "private": true,
   "type": "module",
   "workspaces": [
@@ -11,10 +11,10 @@
     "build": "turbo build",
     "check-types": "turbo check-types",
     "dev:web": "turbo -F web dev",
-    "db:push": "turbo -F @next-ticket-app-1/db db:push",
-    "db:studio": "turbo -F @next-ticket-app-1/db db:studio",
-    "db:generate": "turbo -F @next-ticket-app-1/db db:generate",
-    "db:migrate": "turbo -F @next-ticket-app-1/db db:migrate"
+    "db:push": "turbo -F @next-ticket-app/db db:push",
+    "db:studio": "turbo -F @next-ticket-app/db db:studio",
+    "db:generate": "turbo -F @next-ticket-app/db db:generate",
+    "db:migrate": "turbo -F @next-ticket-app/db db:migrate"
   },
   "dependencies": {
     "dotenv": "^17.2.2",

@@ -32,8 +32,8 @@ import {
 } from '@/constants';
 import { orpc } from '@/utils/orpc';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type TicketSchema, ticketSchema } from '@next-ticket-app-1/api/schema/schema';
-import type { Ticket, TicketDefault } from '@next-ticket-app-1/api/types/ticket';
+import { type TicketSchema, ticketSchema } from '@next-ticket-app/api/schema/schema';
+import type { Ticket, TicketDefault } from '@next-ticket-app/api/types/ticket';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';

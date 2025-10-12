@@ -1,4 +1,4 @@
-import prisma from '@next-ticket-app-1/db';
+import prisma from '@next-ticket-app/db';
 import { z } from 'zod';
 
 import { publicProcedure } from '../index';

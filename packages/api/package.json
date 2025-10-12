@@ -1,5 +1,5 @@
 {
-  "name": "@next-ticket-app-1/api",
+  "name": "@next-ticket-app/api",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -28,6 +28,6 @@
     "next": "15.5.4",
     "dotenv": "^17.2.2",
     "zod": "^4.1.11",
-    "@next-ticket-app-1/db": "*"
+    "@next-ticket-app/db": "*"
   }
 }

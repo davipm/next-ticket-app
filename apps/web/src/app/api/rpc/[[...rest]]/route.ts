@@ -1,5 +1,5 @@
-import { createContext } from "@next-ticket-app-1/api/context";
-import { appRouter } from "@next-ticket-app-1/api/routers/index";
+import { createContext } from "@next-ticket-app/api/context";
+import { appRouter } from "@next-ticket-app/api/routers/index";
 import { OpenAPIHandler } from "@orpc/openapi/fetch";
 import { OpenAPIReferencePlugin } from "@orpc/openapi/plugins";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";

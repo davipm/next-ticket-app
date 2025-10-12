@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@next-ticket-app-1/api": "*",
+    "@next-ticket-app/api": "*",
     "@orpc/client": "^1.9.0",
     "@orpc/openapi": "^1.9.0",
     "@orpc/server": "^1.9.0",
