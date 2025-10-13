@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { Home, TicketPlus } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
-import { orpc } from "@/utils/orpc";
-import {useTicketStore} from "@/store/ticket-store";
+import { useTickets } from '@/hooks/use-ticket';
+import { orpc } from '@/utils/orpc';
+import { useQuery } from '@tanstack/react-query';
+import { Home, TicketPlus } from 'lucide-react';
+import Link from 'next/link';
 
 export function Nav() {
-  const { total } = useTicketStore()
+  const { total } = useTickets();
   const { data: checkApi } = useQuery(orpc.healthCheck.queryOptions());
 
   return (
@@ -23,9 +23,7 @@ export function Nav() {
 
       <div className="flex items-center space-x-4">
         <p className="text-default-text">davi.p.m94@gmail.com has {total} tickets</p>
-        <div
-          className={`h-2 w-2 rounded-full ${checkApi ? "bg-green-500" : "bg-red-500"}`}
-        />
+        <div className={`h-2 w-2 rounded-full ${checkApi ? 'bg-green-500' : 'bg-red-500'}`} />
       </div>
     </nav>
   );
