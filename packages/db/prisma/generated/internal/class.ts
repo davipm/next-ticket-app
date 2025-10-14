@@ -22,7 +22,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/home/davi/WebstormProjects/next-ticket-app-1/packages/db/prisma/generated",
+      "value": "/home/davi/WebstormProjects/next-ticket-app/packages/db/prisma/generated",
       "fromEnvVar": null
     },
     "config": {
@@ -37,7 +37,7 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/davi/WebstormProjects/next-ticket-app-1/packages/db/prisma/schema/schema.prisma",
+    "sourceFilePath": "/home/davi/WebstormProjects/next-ticket-app/packages/db/prisma/schema/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../schema",
