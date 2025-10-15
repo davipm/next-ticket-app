@@ -4,7 +4,7 @@ import { DeleteBlock } from '@/components/delete-block';
 import { PriorityDisplay } from '@/components/priority-display';
 import { ProgressDisplay } from '@/components/progress-display';
 import { StatusDisplay } from '@/components/status-display';
-import type { Ticket } from "@next-ticket-app/api/types/ticket";
+import type { Ticket } from '@next-ticket-app/types';
 import Link from 'next/link';
 
 const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {

@@ -1,15 +1,14 @@
 import prisma from '@next-ticket-app/db';
-import { z } from 'zod';
+import { ticketIdSchema, ticketSchema, updateTicketSchema } from '@next-ticket-app/schemas';
 
 import { publicProcedure } from '../index';
-import { ticketSchema } from '../schema/schema';
 
 export const ticketRouter = {
   getAll: publicProcedure.handler(() => {
     return prisma.ticket.findMany();
   }),
 
-  find: publicProcedure.input(z.object({ id: z.string() })).handler(({ input }) => {
+  find: publicProcedure.input(ticketIdSchema).handler(({ input }) => {
     return prisma.ticket.findUnique({
       where: {
         id: input.id,
@@ -28,7 +27,7 @@ export const ticketRouter = {
 
   update: publicProcedure
     .route({ method: 'PUT', path: '/ticket/{id}' })
-    .input(z.object({ id: z.string(), data: ticketSchema }))
+    .input(updateTicketSchema)
     .handler(async ({ input }) => {
       return prisma.ticket.update({
         where: { id: input.id },
@@ -38,7 +37,7 @@ export const ticketRouter = {
 
   delete: publicProcedure
     .route({ method: 'DELETE', path: '/ticket/{id}' })
-    .input(z.object({ id: z.string() }))
+    .input(ticketIdSchema)
     .handler(async ({ input }) => {
       return prisma.ticket.delete({
         where: { id: input.id },
