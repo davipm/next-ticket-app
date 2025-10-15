@@ -28,8 +28,6 @@
     "next": "15.5.4",
     "dotenv": "^17.2.2",
     "zod": "^4.1.11",
-    "@next-ticket-app/db": "*",
-    "@next-ticket-app/types": "*",
-    "@next-ticket-app/schemas": "*"
+    "@next-ticket-app/db": "*"
   }
 }
