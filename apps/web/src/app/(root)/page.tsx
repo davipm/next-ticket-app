@@ -3,13 +3,23 @@
 import { Error } from '@/app/(root)/_components/error';
 import { Loading } from '@/app/(root)/_components/loading';
 import { TicketCard } from '@/components/ticket-card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/components/ui/empty';
 import { useTickets } from '@/hooks/use-ticket';
-import { CheckCircle2Icon } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 export default function Home() {
   const { tickets, status, isError } = useTickets();
+  const router = useRouter();
 
   const categoriesMap = useMemo(() => {
     return tickets.reduce(
@@ -37,11 +47,21 @@ export default function Home() {
   return (
     <div className="p-5">
       {tickets && tickets.length === 0 ? (
-        <Alert>
-          <CheckCircle2Icon />
-          <AlertTitle>Success! Your changes have been saved</AlertTitle>
-          <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
-        </Alert>
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <Plus />
+            </EmptyMedia>
+            <EmptyTitle>No projects yet</EmptyTitle>
+            <EmptyDescription>Get started by creating your first project.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button className="hover:cursor-pointer" onClick={() => router.push('/tickets/new')}>
+              <Plus />
+              Create Project
+            </Button>
+          </EmptyContent>
+        </Empty>
       ) : (
         uniqueCategories.map((category) => (
           <div key={category} className="mb-4">

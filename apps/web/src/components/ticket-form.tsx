@@ -32,9 +32,9 @@ import {
 } from '@/constants';
 import { orpc } from '@/utils/orpc';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type TicketSchema, ticketSchema } from '@next-ticket-app/api/schema/schema';
-import type { Ticket, TicketDefault } from '@next-ticket-app/api/types/ticket';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { type TicketSchema, ticketDefaultValues, ticketSchema } from '@next-ticket-app/schemas';
+import type { Ticket } from '@next-ticket-app/types';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -43,15 +43,6 @@ import { toast } from 'sonner';
 type Props = {
   id?: string;
   ticketToEdit?: Ticket | null;
-};
-
-export const ticketDefaultValues: TicketDefault = {
-  title: '',
-  description: '',
-  priority: 1,
-  progress: 0,
-  category: 'Hardware Problem',
-  status: 'not started',
 };
 
 export function TicketForm({ id, ticketToEdit }: Props) {
