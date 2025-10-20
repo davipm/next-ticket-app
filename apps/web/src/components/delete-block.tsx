@@ -1,27 +1,10 @@
 'use client';
 
-import { orpc } from '@/utils/orpc';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDeleteTicket } from '@/hooks/use-ticket';
 import { X } from 'lucide-react';
-import { toast } from 'sonner';
 
 export function DeleteBlock({ id }: { id: string }) {
-  const queryClient = useQueryClient();
-
-  const { mutate: deleteTicketMutation, isPending } = useMutation(
-    orpc.ticket.delete.mutationOptions({
-      onSuccess: async () => {
-        toast.success(`Ticket ${id} deleted successfully.`);
-        await queryClient.invalidateQueries({
-          queryKey: orpc.ticket.key({ type: 'query' }),
-        });
-      },
-    }),
-  );
-
-  if (isPending) {
-    return <div>Deleting...</div>;
-  }
+  const { deleteTicketMutation } = useDeleteTicket();
 
   return (
     <X
