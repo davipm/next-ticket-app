@@ -30,11 +30,10 @@ import {
   TICKET_CATEGORIES,
   TICKET_STATUS,
 } from '@/constants';
-import { orpc } from '@/utils/orpc';
+import { useCreateTicket, useUpdateTicket } from '@/hooks/use-ticket';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type TicketSchema, ticketDefaultValues, ticketSchema } from '@next-ticket-app/schemas';
 import type { Ticket } from '@next-ticket-app/types';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
@@ -46,7 +45,6 @@ type Props = {
 };
 
 export function TicketForm({ id, ticketToEdit }: Props) {
-  const queryClient = useQueryClient();
   const router = useRouter();
   const isEditMode = !!id;
 
@@ -59,34 +57,25 @@ export function TicketForm({ id, ticketToEdit }: Props) {
     router.push(`/`);
     form.reset();
 
-    await queryClient.invalidateQueries({
-      queryKey: orpc.ticket.key({ type: 'query' }),
-    });
+    toast.success(`Tickets updated successfully.`);
   };
 
-  const handleError = (error: Error) => {
-    toast.error(error.message);
-  };
+  const { createTicketMutation } = useCreateTicket();
 
-  const { mutate: createTicketMutation } = useMutation(
-    orpc.ticket.create.mutationOptions({
-      onSuccess: handleSuccess,
-      onError: handleError,
-    }),
-  );
-
-  const { mutate: updateTicketMutation } = useMutation(
-    orpc.ticket.update.mutationOptions({
-      onSuccess: handleSuccess,
-      onError: handleError,
-    }),
-  );
+  const { updateTicketMutation } = useUpdateTicket();
 
   const onSubmit: SubmitHandler<TicketSchema> = (data) => {
     if (isEditMode) {
-      updateTicketMutation({ id, data });
+      updateTicketMutation(
+        { id, data },
+        {
+          onSuccess: handleSuccess,
+        },
+      );
     } else {
-      createTicketMutation(data);
+      createTicketMutation(data, {
+        onSuccess: handleSuccess,
+      });
     }
   };
 
