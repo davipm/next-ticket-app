@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div className="p-5">
-      {tickets && total === 0 ? (
+      {total === 0 ? (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">
