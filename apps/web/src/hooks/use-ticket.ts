@@ -1,15 +1,20 @@
 import { orpc } from '@/utils/orpc';
-import type { Ticket } from '@next-ticket-app/types';
+import type { Ticket, TicketsResponse } from '@next-ticket-app/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 export const useTickets = () => {
-  const { data: tickets = [], ...rest } = useQuery(
+  const { data, ...rest } = useQuery(
     orpc.ticket.getAll.queryOptions({
       staleTime: 1000 * 60 * 5,
     }),
   );
-  return { tickets, total: tickets.length, ...rest };
+
+  return {
+    tickets: data?.tickets || [],
+    total: data?.total || 0,
+    ...rest,
+  };
 };
 
 export const useCreateTicket = () => {
@@ -28,8 +33,13 @@ export const useCreateTicket = () => {
 
         queryClient.setQueriesData(
           { queryKey: orpc.ticket.key({ type: 'query' }) },
-          (old: Ticket[]) => {
-            return old ? [...old, { id: Math.random().toString(), ...task }] : [task];
+          (old: TicketsResponse) => {
+            if (!old) return old;
+            return {
+              ...old,
+              tickets: [...old.tickets, { ...task, id: Math.random().toString() }],
+              total: old.total + 1,
+            };
           },
         );
 
@@ -69,9 +79,12 @@ export const useUpdateTicket = () => {
           queryKey: orpc.ticket.key({ type: 'query' }),
         });
 
-        queryClient.setQueryData<Ticket[]>(orpc.ticket.getAll.queryKey(), (old) => {
+        queryClient.setQueryData<TicketsResponse>(orpc.ticket.key({ type: 'query' }), (old) => {
           if (!old) return old;
-          return old.map((ticket) => (ticket.id === id ? { ...ticket, ...data } : ticket));
+          return {
+            ...old,
+            tickets: old.tickets.map((item) => (item.id === id ? { ...item, ...data } : item)),
+          };
         });
 
         return { previousTickets };
@@ -112,9 +125,13 @@ export const useDeleteTicket = () => {
 
         queryClient.setQueriesData(
           { queryKey: orpc.ticket.key({ type: 'query' }) },
-          (old: Ticket[]) => {
+          (old: TicketsResponse) => {
             if (!old) return old;
-            return old.filter((ticket: Ticket) => ticket.id !== id);
+            return {
+              ...old,
+              tickets: old.tickets.filter((task) => task.id !== id),
+              total: old.total - 1,
+            };
           },
         );
 

@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 
 export default function Home() {
-  const { tickets, status, isError } = useTickets();
+  const { tickets, total, status, isError } = useTickets();
   const router = useRouter();
 
   const categoriesMap = useMemo(() => {
@@ -46,7 +46,7 @@ export default function Home() {
 
   return (
     <div className="p-5">
-      {tickets && tickets.length === 0 ? (
+      {tickets && total === 0 ? (
         <Empty>
           <EmptyHeader>
             <EmptyMedia variant="icon">

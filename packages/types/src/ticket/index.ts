@@ -11,6 +11,11 @@ export interface Ticket {
   updatedAt: Date;
 }
 
+export interface TicketsResponse {
+  tickets: Ticket[];
+  total: number;
+}
+
 export interface TicketDefault {
   title: string;
   description: string;
