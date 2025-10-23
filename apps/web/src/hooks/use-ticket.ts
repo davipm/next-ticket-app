@@ -79,13 +79,16 @@ export const useUpdateTicket = () => {
           queryKey: orpc.ticket.key({ type: 'query' }),
         });
 
-        queryClient.setQueryData<TicketsResponse>(orpc.ticket.key({ type: 'query' }), (old) => {
-          if (!old) return old;
-          return {
-            ...old,
-            tickets: old.tickets.map((item) => (item.id === id ? { ...item, ...data } : item)),
-          };
-        });
+        queryClient.setQueriesData(
+          { queryKey: orpc.ticket.key({ type: 'query' }) },
+          (old: TicketsResponse) => {
+            if (!old) return old;
+            return {
+              ...old,
+              tickets: old.tickets.map((item) => (item.id === id ? { ...item, ...data } : item)),
+            };
+          },
+        );
 
         return { previousTickets };
       },
