@@ -35,7 +35,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { type TicketSchema, ticketDefaultValues, ticketSchema } from '@next-ticket-app/schemas';
 import type { Ticket } from '@next-ticket-app/types';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -44,6 +44,14 @@ type Props = {
   ticketToEdit?: Ticket | null;
 };
 
+/**
+ * Component for rendering a form to create or update a ticket.
+ * Handles form submission and manages state for ticket data.
+ *
+ * @param {Object} param - Component properties.
+ * @param {string} param.id - ID of the ticket being edited (if in edit mode).
+ * @param {Object} param.ticketToEdit - Data of the ticket to edit (used in edit mode).
+ */
 export function TicketForm({ id, ticketToEdit }: Props) {
   const router = useRouter();
   const isEditMode = !!id;
@@ -53,31 +61,40 @@ export function TicketForm({ id, ticketToEdit }: Props) {
     defaultValues: ticketDefaultValues,
   });
 
-  const handleSuccess = async () => {
+  const handleSuccess = useCallback(() => {
     router.push(`/`);
-    form.reset();
+    form.reset(ticketDefaultValues);
 
-    toast.success(`Tickets updated successfully.`);
-  };
+    toast.success(isEditMode ? 'Ticket updated successfully' : 'Ticket created successfully');
+  }, [router, form, isEditMode]);
 
-  const { createTicketMutation } = useCreateTicket();
+  const handleError = useCallback(
+    (error: Error) => {
+      toast.error(`Failed to ${isEditMode ? 'update' : 'create'} ticket: ${error.message}`);
+    },
+    [isEditMode],
+  );
 
-  const { updateTicketMutation } = useUpdateTicket();
+  const { createTicketMutation, isPending: isCreating } = useCreateTicket();
+  const { updateTicketMutation, isPending: isUpdating } = useUpdateTicket();
 
-  const onSubmit: SubmitHandler<TicketSchema> = (data) => {
-    if (isEditMode) {
-      updateTicketMutation(
-        { id, data },
-        {
-          onSuccess: handleSuccess,
-        },
-      );
-    } else {
-      createTicketMutation(data, {
+  const isSubmitting = isCreating || isUpdating;
+
+  const onSubmit: SubmitHandler<TicketSchema> = useCallback(
+    (data) => {
+      const mutationOptions = {
         onSuccess: handleSuccess,
-      });
-    }
-  };
+        onError: handleError,
+      };
+
+      if (isEditMode) {
+        updateTicketMutation({ id, data }, mutationOptions);
+      } else {
+        createTicketMutation(data, mutationOptions);
+      }
+    },
+    [isEditMode, id, createTicketMutation, updateTicketMutation, handleSuccess, handleError],
+  );
 
   useEffect(() => {
     if (isEditMode && ticketToEdit) {
@@ -89,6 +106,14 @@ export function TicketForm({ id, ticketToEdit }: Props) {
       form.reset(ticketDefaultValues);
     }
   }, [form, isEditMode, ticketToEdit]);
+
+  useEffect(() => {
+    return () => {
+      if (isSubmitting) {
+        router.push(`/`);
+      }
+    };
+  }, [isSubmitting, router]);
 
   return (
     <div className="flex justify-center">
