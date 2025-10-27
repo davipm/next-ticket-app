@@ -78,6 +78,23 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   const { createTicketMutation } = useCreateTicket();
   const { updateTicketMutation } = useUpdateTicket();
 
+  /**
+   * Handles the submission of a form to either create or update a ticket based on the current mode.
+   *
+   * @type {SubmitHandler<TicketSchema>}
+   *
+   * The function utilizes a callback to execute either a ticket creation or update mutation,
+   * determined by the value of `isEditMode`. It also manages success and error handling for
+   * these operations.
+   *
+   * Dependencies for the callback include:
+   * - `isEditMode`: Boolean indicating whether the submission is for editing an existing ticket.
+   * - `id`: The ID of the ticket to be updated if in edit mode.
+   * - `createTicketMutation`: Function for creating a new ticket.
+   * - `updateTicketMutation`: Function for updating an existing ticket.
+   * - `handleSuccess`: Callback executed on successful mutation.
+   * - `handleError`: Callback executed on mutation failure.
+   */
   const onSubmit: SubmitHandler<TicketSchema> = useCallback(
     (data) => {
       const mutationOptions = {
