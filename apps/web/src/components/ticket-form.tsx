@@ -66,7 +66,7 @@ export function TicketForm({ id, ticketToEdit }: Props) {
     form.reset(ticketDefaultValues);
 
     toast.success(isEditMode ? 'Ticket updated successfully' : 'Ticket created successfully');
-  }, [router, form, isEditMode]);
+  }, [router, isEditMode]);
 
   const handleError = useCallback(
     (error: Error) => {
@@ -75,10 +75,8 @@ export function TicketForm({ id, ticketToEdit }: Props) {
     [isEditMode],
   );
 
-  const { createTicketMutation, isPending: isCreating } = useCreateTicket();
-  const { updateTicketMutation, isPending: isUpdating } = useUpdateTicket();
-
-  const isSubmitting = isCreating || isUpdating;
+  const { createTicketMutation } = useCreateTicket();
+  const { updateTicketMutation } = useUpdateTicket();
 
   const onSubmit: SubmitHandler<TicketSchema> = useCallback(
     (data) => {
@@ -106,14 +104,6 @@ export function TicketForm({ id, ticketToEdit }: Props) {
       form.reset(ticketDefaultValues);
     }
   }, [form, isEditMode, ticketToEdit]);
-
-  useEffect(() => {
-    return () => {
-      if (isSubmitting) {
-        router.push(`/`);
-      }
-    };
-  }, [isSubmitting, router]);
 
   return (
     <div className="flex justify-center">
