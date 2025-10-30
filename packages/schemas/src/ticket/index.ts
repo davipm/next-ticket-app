@@ -9,6 +9,9 @@ export const ticketSchema = z.object({
   progress: z.number().min(0).max(100),
   category: z.string().min(1),
   status: z.string().min(1),
+  active: z.boolean(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
 });
 
 export const ticketIdSchema = z.object({
