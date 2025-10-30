@@ -2,6 +2,7 @@ import type { TicketDefault } from '@next-ticket-app/types';
 import { z } from 'zod';
 
 export const ticketSchema = z.object({
+  id: z.string().min(1),
   title: z.string().min(1),
   description: z.string().min(1),
   priority: z.number().min(1).max(5),
