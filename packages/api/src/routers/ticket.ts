@@ -1,5 +1,6 @@
 import prisma from '@next-ticket-app/db';
 import { ticketIdSchema, ticketSchema, updateTicketSchema } from '@next-ticket-app/schemas';
+import { ORPCError } from '@orpc/server';
 import { z } from 'zod';
 
 import { publicProcedure } from '../index';
@@ -30,7 +31,9 @@ export const ticketRouter = {
       });
 
       if (!ticket) {
-        throw new Error(`Ticket with id ${input.id} not found`);
+        throw new ORPCError('NOT_FOUND', {
+          message: `Ticket with id ${input.id} not found`,
+        });
       }
 
       return ticket;
@@ -51,6 +54,16 @@ export const ticketRouter = {
     .input(updateTicketSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
+      const ticket = await prisma.ticket.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!ticket) {
+        throw new ORPCError('NOT_FOUND', {
+          message: `Ticket with id ${input.id} not found`,
+        });
+      }
+
       return prisma.ticket.update({
         where: { id: input.id },
         data: input.data,
@@ -62,6 +75,16 @@ export const ticketRouter = {
     .input(ticketIdSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
+      const ticket = await prisma.ticket.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!ticket) {
+        throw new ORPCError('NOT_FOUND', {
+          message: `Ticket with id ${input.id} not found`,
+        });
+      }
+
       return prisma.ticket.delete({
         where: { id: input.id },
       });
