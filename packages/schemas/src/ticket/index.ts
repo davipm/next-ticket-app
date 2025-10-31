@@ -18,7 +18,7 @@ export const ticketIdSchema = z.object({
   id: z.string().min(1),
 });
 
-export const createTicketSchema = ticketSchema.omit({
+export const formTicketSchema = ticketSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
@@ -27,11 +27,11 @@ export const createTicketSchema = ticketSchema.omit({
 
 export const updateTicketSchema = z.object({
   id: z.string().min(1),
-  data: createTicketSchema.partial(),
+  data: formTicketSchema.partial(),
 });
 
 export type TicketSchema = z.infer<typeof ticketSchema>;
-export type CreateTicketSchema = z.infer<typeof createTicketSchema>;
+export type FormTicketSchema = z.infer<typeof formTicketSchema>;
 export type TicketSchemaID = z.infer<typeof ticketIdSchema>;
 export type UpdateTicketSchema = z.infer<typeof updateTicketSchema>;
 

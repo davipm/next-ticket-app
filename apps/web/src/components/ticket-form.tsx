@@ -33,8 +33,8 @@ import {
 import { useCreateTicket, useUpdateTicket } from '@/hooks/use-ticket';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  type CreateTicketSchema,
-  createTicketSchema,
+  type FormTicketSchema,
+  formTicketSchema,
   ticketDefaultValues,
 } from '@next-ticket-app/schemas';
 import type { Ticket } from '@next-ticket-app/types';
@@ -48,20 +48,12 @@ type Props = {
   ticketToEdit?: Ticket | null;
 };
 
-/**
- * Component for rendering a form to create or update a ticket.
- * Handles form submission and manages state for ticket data.
- *
- * @param {Object} param - Component properties.
- * @param {string} param.id - ID of the ticket being edited (if in edit mode).
- * @param {Object} param.ticketToEdit - Data of the ticket to edit (used in edit mode).
- */
 export function TicketForm({ id, ticketToEdit }: Props) {
   const router = useRouter();
   const isEditMode = !!id;
 
-  const form = useForm<CreateTicketSchema>({
-    resolver: zodResolver(createTicketSchema),
+  const form = useForm<FormTicketSchema>({
+    resolver: zodResolver(formTicketSchema),
     defaultValues: ticketDefaultValues,
   });
 
@@ -85,7 +77,7 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   /**
    * Handles the submission of a form to either create or update a ticket based on the current mode.
    *
-   * The function utilizes a callback to execute either a ticket creation or update mutation,
+   * The function uses a callback to execute either a ticket creation or update mutation,
    * determined by the value of `isEditMode`. It also manages success and error handling for
    * these operations.
    *
@@ -97,7 +89,7 @@ export function TicketForm({ id, ticketToEdit }: Props) {
    * - `handleSuccess`: Callback executed on successful mutation.
    * - `handleError`: Callback executed on mutation failure.
    */
-  const onSubmit: SubmitHandler<CreateTicketSchema> = useCallback(
+  const onSubmit: SubmitHandler<FormTicketSchema> = useCallback(
     (data) => {
       const mutationOptions = {
         onSuccess: handleSuccess,
