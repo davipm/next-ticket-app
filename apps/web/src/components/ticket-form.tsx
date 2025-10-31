@@ -32,7 +32,11 @@ import {
 } from '@/constants';
 import { useCreateTicket, useUpdateTicket } from '@/hooks/use-ticket';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type TicketSchema, ticketDefaultValues, ticketSchema } from '@next-ticket-app/schemas';
+import {
+  type CreateTicketSchema,
+  createTicketSchema,
+  ticketDefaultValues,
+} from '@next-ticket-app/schemas';
 import type { Ticket } from '@next-ticket-app/types';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
@@ -56,8 +60,8 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   const router = useRouter();
   const isEditMode = !!id;
 
-  const form = useForm<TicketSchema>({
-    resolver: zodResolver(ticketSchema),
+  const form = useForm<CreateTicketSchema>({
+    resolver: zodResolver(createTicketSchema),
     defaultValues: ticketDefaultValues,
   });
 
@@ -81,8 +85,6 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   /**
    * Handles the submission of a form to either create or update a ticket based on the current mode.
    *
-   * @type {SubmitHandler<TicketSchema>}
-   *
    * The function utilizes a callback to execute either a ticket creation or update mutation,
    * determined by the value of `isEditMode`. It also manages success and error handling for
    * these operations.
@@ -95,7 +97,7 @@ export function TicketForm({ id, ticketToEdit }: Props) {
    * - `handleSuccess`: Callback executed on successful mutation.
    * - `handleError`: Callback executed on mutation failure.
    */
-  const onSubmit: SubmitHandler<TicketSchema> = useCallback(
+  const onSubmit: SubmitHandler<CreateTicketSchema> = useCallback(
     (data) => {
       const mutationOptions = {
         onSuccess: handleSuccess,

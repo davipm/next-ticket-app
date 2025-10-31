@@ -1,5 +1,10 @@
 import prisma from '@next-ticket-app/db';
-import { ticketIdSchema, ticketSchema, updateTicketSchema } from '@next-ticket-app/schemas';
+import {
+  createTicketSchema,
+  ticketIdSchema,
+  ticketSchema,
+  updateTicketSchema,
+} from '@next-ticket-app/schemas';
 import { ORPCError } from '@orpc/server';
 import { z } from 'zod';
 
@@ -41,7 +46,7 @@ export const ticketRouter = {
 
   create: publicProcedure
     .route({ method: 'POST', path: '/ticket' })
-    .input(ticketSchema)
+    .input(createTicketSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
       return prisma.ticket.create({
