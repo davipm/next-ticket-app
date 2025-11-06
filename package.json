@@ -1,32 +1,59 @@
 {
   "name": "next-ticket-app",
+  "version": "0.1.0",
   "private": true,
-  "type": "module",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "check-types": "turbo check-types",
-    "dev:web": "turbo -F web dev",
-    "db:push": "turbo -F @next-ticket-app/db db:push",
-    "db:studio": "turbo -F @next-ticket-app/db db:studio",
-    "db:generate": "turbo -F @next-ticket-app/db db:generate",
-    "db:migrate": "turbo -F @next-ticket-app/db db:migrate"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "biome check",
+    "format": "biome format --write",
+    "db:migrate": "npx prisma migrate dev",
+    "db:pull": "npx prisma db pull",
+    "db:generate": "npx prisma generate",
+    "db:studio": "npx prisma studio",
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "dotenv": "^17.2.2",
-    "zod": "^4.1.11"
+    "@orpc/client": "^1.10.4",
+    "@orpc/openapi": "^1.10.4",
+    "@orpc/react-query": "^1.10.4",
+    "@orpc/server": "^1.10.4",
+    "@orpc/zod": "^1.10.4",
+    "@prisma/client": "^6.19.0",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
+    "@radix-ui/react-label": "^2.1.8",
+    "@radix-ui/react-radio-group": "^1.3.8",
+    "@radix-ui/react-select": "^2.2.6",
+    "@radix-ui/react-slider": "^1.3.6",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@tanstack/react-query": "^5.90.7",
+    "@tanstack/react-query-devtools": "^5.90.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
+    "lucide-react": "^0.552.0",
+    "next": "16.0.1",
+    "next-themes": "^0.4.6",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-hook-form": "^7.66.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.3.1",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^22.13.11",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.14",
-    "tsdown": "^0.15.5",
-    "turbo": "^2.5.4"
-  },
-  "packageManager": "npm@11.6.1"
+    "@biomejs/biome": "2.2.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "prisma": "^6.19.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.20.6",
+    "tw-animate-css": "^1.4.0",
+    "typescript": "^5"
+  }
 }
