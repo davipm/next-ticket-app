@@ -1,8 +1,8 @@
 import { ORPCError } from '@orpc/server';
 import z from 'zod';
+import { prisma } from '@/lib/prisma';
 import { formTicketSchema, ticketIdSchema, ticketSchema, updateTicketSchema } from '@/lib/types';
 import { publicProcedure } from '@/server/orpc';
-import { prisma } from '@/server/prisma';
 
 export const ticketRouter = {
   getAll: publicProcedure
