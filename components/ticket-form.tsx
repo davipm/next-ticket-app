@@ -164,8 +164,8 @@ export function TicketForm({ id, ticketToEdit }: Props) {
                 >
                   {Array.from({ length: PRIORITY_LEVELS }, (_, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <RadioGroupItem id={`${index}`} value={String(index + 1)} />
-                      <Label htmlFor={`${index}`}>{index + 1}</Label>
+                      <RadioGroupItem id={`priority-${index}`} value={String(index + 1)} />
+                      <Label htmlFor={`priority-${index}`}>{index + 1}</Label>
                     </div>
                   ))}
                 </RadioGroup>
@@ -209,8 +209,8 @@ export function TicketForm({ id, ticketToEdit }: Props) {
                 >
                   {TICKET_STATUS.map(({ name, value }, index) => (
                     <div key={index} className="flex items-center gap-3">
-                      <RadioGroupItem id={`${index}`} value={value} />
-                      <Label htmlFor={`${index}`}>{name}</Label>
+                      <RadioGroupItem id={`status-${index}`} value={value} />
+                      <Label htmlFor={`status-${index}`}>{name}</Label>
                     </div>
                   ))}
                 </RadioGroup>
