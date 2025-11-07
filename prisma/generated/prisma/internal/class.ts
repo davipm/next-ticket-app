@@ -34,6 +34,10 @@ const config: runtime.GetPrismaClientConfig = {
         "fromEnvVar": null,
         "value": "debian-openssl-3.0.x",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -47,6 +51,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -55,8 +60,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../prisma/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Ticket {\n  id          String   @id @default(uuid())\n  title       String\n  description String\n  category    String\n  priority    Int      @default(1)\n  progress    Int      @default(0)\n  status      String\n  active      Boolean  @default(false)\n  createdAt   DateTime @default(now()) @map(\"createdAt\")\n  updatedAt   DateTime @updatedAt @map(\"updatedAt\")\n}\n",
-  "inlineSchemaHash": "0997d9aaf0900d23f56a814a2cd11ac221b069535c56779c5f91be3f3bca9fb8",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"../prisma/generated/prisma\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Ticket {\n  id          String   @id @default(uuid())\n  title       String\n  description String\n  category    String\n  priority    Int      @default(1)\n  progress    Int      @default(0)\n  status      String\n  active      Boolean  @default(false)\n  createdAt   DateTime @default(now()) @map(\"createdAt\")\n  updatedAt   DateTime @updatedAt @map(\"updatedAt\")\n}\n",
+  "inlineSchemaHash": "be34dd2244af303b7af40c0d287e491d82563429f18350c888b4df681dbc6164",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
