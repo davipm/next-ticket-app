@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "prisma generate && next dev",
-    "build": "prisma generate && prisma db push && next build",
+    "build": "prisma migrate deploy && next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
+    "postinstall": "prisma generate",
     "db:migrate": "npx prisma migrate dev",
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
