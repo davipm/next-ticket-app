@@ -1,5 +1,5 @@
 import { TicketForm } from '@/components/ticket-form';
-import { prisma } from '@/lib/prisma';
+import { prisma } from '@/server/prisma';
 
 type Props = {
   params: Promise<{ id: string }>;
