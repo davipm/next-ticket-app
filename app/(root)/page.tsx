@@ -63,22 +63,29 @@ export default function Home() {
 
   if (isError) {
     return (
-      <Alert className="w-full max-w-lg flex flex-row items-start gap-3 border-destructive/80 bg-destructive/5 text-destructive">
-        <CircleX className="size-4 shrink-0 translate-y-0.5 text-destructive/60" />
-        <div className="flex flex-1 items-start justify-between gap-4">
-          <div className="flex flex-col gap-0.5">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription className="text-destructive/80">
-              There was a problem processing your request. Please try again later.
-            </AlertDescription>
+      <div className="flex items-center justify-center h-90">
+        <Alert className="w-full max-w-lg flex flex-row items-start gap-3 border-destructive/80 bg-destructive/5 text-destructive">
+          <CircleX className="size-4 shrink-0 translate-y-0.5 text-destructive/60" />
+          <div className="flex flex-1 items-start justify-between gap-4">
+            <div className="flex flex-col gap-0.5">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription className="text-destructive/80">
+                There was a problem processing your request. Please try again later.
+              </AlertDescription>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <Button
+                size="sm"
+                variant="destructive"
+                className="hover:cursor-pointer"
+                onClick={() => refetch()}
+              >
+                Retry
+              </Button>
+            </div>
           </div>
-          <div className="flex shrink-0 gap-2">
-            <Button size="sm" variant="destructive" onClick={() => refetch()}>
-              Retry
-            </Button>
-          </div>
-        </div>
-      </Alert>
+        </Alert>
+      </div>
     );
   }
 
