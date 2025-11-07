@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "prisma generate && next dev",
+    "build": "prisma generate && prisma db push && next build",
     "start": "next start",
     "lint": "biome check",
     "format": "biome format --write",
@@ -12,8 +12,7 @@
     "db:pull": "npx prisma db pull",
     "db:generate": "npx prisma generate",
     "db:studio": "npx prisma studio",
-    "db:seed": "tsx prisma/seed.ts",
-    "vercel-build": "prisma generate && prisma migrate deploy && next build"
+    "db:seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@orpc/client": "^1.10.4",
