@@ -6,7 +6,7 @@ import { prisma } from '@/server/prisma';
 
 export const ticketRouter = {
   getAll: publicProcedure
-    .route({ method: 'GET', path: '/ticket' })
+    .route({ method: 'GET', path: '/tickets' })
     .output(z.object({ tickets: z.array(ticketSchema), total: z.number() }))
     .handler(async () => {
       const [tickets, total] = await prisma.$transaction([
@@ -21,7 +21,7 @@ export const ticketRouter = {
     }),
 
   find: publicProcedure
-    .route({ method: 'GET', path: '/ticket/{id}' })
+    .route({ method: 'GET', path: '/tickets/{id}' })
     .input(ticketIdSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
@@ -39,7 +39,7 @@ export const ticketRouter = {
     }),
 
   create: publicProcedure
-    .route({ method: 'POST', path: '/ticket' })
+    .route({ method: 'POST', path: '/tickets' })
     .input(formTicketSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
@@ -49,7 +49,7 @@ export const ticketRouter = {
     }),
 
   update: publicProcedure
-    .route({ method: 'PUT', path: '/ticket/{id}' })
+    .route({ method: 'PUT', path: '/tickets/{id}' })
     .input(updateTicketSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
@@ -70,7 +70,7 @@ export const ticketRouter = {
     }),
 
   delete: publicProcedure
-    .route({ method: 'DELETE', path: '/ticket/{id}' })
+    .route({ method: 'DELETE', path: '/tickets/{id}' })
     .input(ticketIdSchema)
     .output(ticketSchema)
     .handler(async ({ input }) => {
