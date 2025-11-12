@@ -1,4 +1,4 @@
-name: next-db
+version: '3.8'
 
 services:
   postgres:
@@ -17,6 +17,25 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
+
+  next-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: next-ticket-app
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:password@postgres:5432/next-db?schema=public
+      - NEXT_TELEMETRY_DISABLED=1
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
