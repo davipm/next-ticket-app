@@ -1,10 +1,9 @@
 # Next.js Ticket App
 
-[![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![oRPC](https://img.shields.io/badge/oRPC-2D3748?style=for-the-badge&logo=grpc&logoColor=white)](https://orpc.vercel.app/)
+<div align="center">
+
+[![My Skills](https://skillicons.dev/icons?i=ts,nextjs,tailwind,prisma,postgres,docker)](https://skillicons.dev)
+</div>
 
 A full-stack ticket management application built with a modern, type-safe tech stack. It allows users to create, view, update, and delete tickets, demonstrating a robust and scalable architecture.
 
