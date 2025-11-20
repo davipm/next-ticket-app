@@ -110,7 +110,7 @@ export default function Home() {
       ) : (
         uniqueCategories.map((category) => (
           <div key={category} className="mb-4">
-            <h2 className="mb-2 text-xl font-semibold">{category}</h2>
+            <h2 className="mb-2 text-xl font-semibold text-black dark:text-white ">{category}</h2>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               {categoriesMap[category].map((ticket) => (
                 <TicketCard key={ticket.id} {...ticket} />

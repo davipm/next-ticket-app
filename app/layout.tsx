@@ -27,7 +27,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <Providers>
           <div className="flex h-screen max-h-screen flex-col">
             <Nav />
-            <div className="grow overflow-y-auto bg-page p-5 text-default-test">{children}</div>
+            <div className="grow overflow-y-auto bg-gray-50 dark:bg-page p-5 text-default-test">
+              {children}
+            </div>
           </div>
         </Providers>
       </body>

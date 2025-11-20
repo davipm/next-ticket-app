@@ -13,7 +13,7 @@ export function Nav() {
   const { data: checkApi } = useQuery(orpc.healthCheck.queryOptions());
 
   return (
-    <nav className="flex justify-between bg-nav p-4">
+    <nav className="flex justify-between bg-white shadow-lg dark:bg-nav p-4">
       <div className="flex items-center space-x-4">
         <Link href="/">
           <Home size={25} />

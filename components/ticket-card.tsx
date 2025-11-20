@@ -28,7 +28,7 @@ export function TicketCard({
   const createDateTime = new Date(createdAt).toLocaleString('en-US', dateTimeFormatOptions);
 
   return (
-    <div className="m-2 flex flex-col rounded-md bg-custom-card p-3 shadow-lg transition duration-300 ease-in-out hover:bg-card-hover">
+    <div className="m-2 flex flex-col text-black dark:text-white rounded-md dark:bg-custom-card p-3 shadow-lg transition duration-300 ease-in-out hover:bg-card-hover">
       <div className="mb-3 flex">
         <PriorityDisplay priority={priority} />
         <div className="ml-auto">
