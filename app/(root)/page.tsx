@@ -2,7 +2,6 @@
 
 import { CircleX, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
 import { TicketCard } from '@/components/ticket-card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -21,18 +20,16 @@ export default function Home() {
   const { tickets, total, status, isError, refetch } = useTickets();
   const router = useRouter();
 
-  const categoriesMap = useMemo(() => {
-    return tickets.reduce(
-      (map, ticket) => {
-        if (!map[ticket.category]) {
-          map[ticket.category] = [];
-        }
-        map[ticket.category].push(ticket);
-        return map;
-      },
-      {} as Record<string, typeof tickets>,
-    );
-  }, [tickets]);
+  const categoriesMap = tickets.reduce(
+    (map, ticket) => {
+      if (!map[ticket.category]) {
+        map[ticket.category] = [];
+      }
+      map[ticket.category].push(ticket);
+      return map;
+    },
+    {} as Record<string, typeof tickets>,
+  );
 
   const uniqueCategories = Object.keys(categoriesMap);
 
