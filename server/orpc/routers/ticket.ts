@@ -1,13 +1,18 @@
 import { ORPCError } from '@orpc/server';
 import z from 'zod';
-import { formTicketSchema, ticketIdSchema, ticketSchema, updateTicketSchema } from '@/lib/types';
 import { publicProcedure } from '@/server/orpc';
 import { prisma } from '@/server/prisma';
+import {
+  createTicketSchema,
+  ticketIdSchema,
+  ticketResponseSchema,
+  updateTicketSchema
+} from "@/server/schemas/ticket-schemas";
 
 export const ticketRouter = {
   getAll: publicProcedure
     .route({ method: 'GET', path: '/tickets' })
-    .output(z.object({ tickets: z.array(ticketSchema), total: z.number() }))
+    .output(z.object({ tickets: z.array(ticketResponseSchema), total: z.number() }))
     .handler(async () => {
       const [tickets, total] = await prisma.$transaction([
         prisma.ticket.findMany(),
@@ -23,7 +28,7 @@ export const ticketRouter = {
   find: publicProcedure
     .route({ method: 'GET', path: '/tickets/{id}' })
     .input(ticketIdSchema)
-    .output(ticketSchema)
+    .output(ticketResponseSchema)
     .handler(async ({ input }) => {
       const ticket = await prisma.ticket.findUnique({
         where: { id: input.id },
@@ -40,8 +45,8 @@ export const ticketRouter = {
 
   create: publicProcedure
     .route({ method: 'POST', path: '/tickets' })
-    .input(formTicketSchema)
-    .output(ticketSchema)
+    .input(createTicketSchema)
+    .output(ticketResponseSchema)
     .handler(async ({ input }) => {
       return prisma.ticket.create({
         data: input,
@@ -51,7 +56,7 @@ export const ticketRouter = {
   update: publicProcedure
     .route({ method: 'PUT', path: '/tickets/{id}' })
     .input(updateTicketSchema)
-    .output(ticketSchema)
+    .output(ticketResponseSchema)
     .handler(async ({ input }) => {
       const ticket = await prisma.ticket.findUnique({
         where: { id: input.id },
@@ -72,7 +77,7 @@ export const ticketRouter = {
   delete: publicProcedure
     .route({ method: 'DELETE', path: '/tickets/{id}' })
     .input(ticketIdSchema)
-    .output(ticketSchema)
+    .output(ticketResponseSchema)
     .handler(async ({ input }) => {
       const ticket = await prisma.ticket.findUnique({
         where: { id: input.id },

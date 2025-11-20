@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import type { TicketSchema, TicketsResponse } from '@/lib/types';
+import type { TicketResponseSchema, TicketsResponse } from '@/server/schemas/ticket-schemas';
 import { orpc } from '@/utils/orpc';
 
 export const useTickets = () => {
@@ -27,7 +27,7 @@ export const useCreateTicket = () => {
           queryKey: orpc.ticket.key({ type: 'query' }),
         });
 
-        const previousTickets = queryClient.getQueriesData<TicketSchema[]>({
+        const previousTickets = queryClient.getQueriesData<TicketResponseSchema[]>({
           queryKey: orpc.ticket.key({ type: 'query' }),
         });
 
@@ -52,7 +52,7 @@ export const useCreateTicket = () => {
           });
         }
 
-        toast.error(`Failed to create ticket ${title}. Please try again.`);
+        toast.error(`${error.message} Failed to create ticket ${title}. Please try again.`);
       },
       onSettled: async () => {
         await queryClient.invalidateQueries({
@@ -99,7 +99,7 @@ export const useUpdateTicket = () => {
           });
         }
 
-        toast.error(`Failed to delete ticket ${id}. Please try again.`);
+        toast.error(`${error.message} Failed to delete ticket ${id}. Please try again.`);
       },
       onSettled: async () => {
         await queryClient.invalidateQueries({
@@ -142,13 +142,11 @@ export const useDeleteTicket = () => {
         return { previousTickets };
       },
       onError: (error, { id }, context) => {
-        if (context?.previousTickets) {
-          context.previousTickets.forEach(([queryKey, data]) => {
-            queryClient.setQueryData(queryKey, data);
-          });
-        }
-
-        toast.error(`Failed to delete ticket ${id}. Please try again.`);
+        queryClient.setQueriesData(
+          { queryKey: orpc.ticket.key({ type: 'query' }) },
+          context?.previousTickets,
+        );
+        toast.error(`${error.message} Failed to delete ticket ${id}. Please try again.`);
       },
       onSettled: async () => {
         await queryClient.invalidateQueries({

@@ -5,7 +5,7 @@ import { DeleteBlock } from '@/components/delete-block';
 import { PriorityDisplay } from '@/components/priority-display';
 import { ProgressDisplay } from '@/components/progress-display';
 import { StatusDisplay } from '@/components/status-display';
-import type { TicketSchema } from '@/lib/types';
+import type { TicketResponseSchema } from '@/server/schemas/ticket-schemas';
 
 const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
   year: 'numeric',
@@ -24,7 +24,7 @@ export function TicketCard({
   createdAt,
   id,
   title,
-}: TicketSchema) {
+}: TicketResponseSchema) {
   const createDateTime = new Date(createdAt).toLocaleString('en-US', dateTimeFormatOptions);
 
   return (

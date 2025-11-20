@@ -28,19 +28,23 @@ import {
   TICKET_STATUS,
 } from '@/constants';
 import { useCreateTicket, useUpdateTicket } from '@/hooks/use-ticket';
-import { type FormTicketSchema, formTicketSchema, type TicketSchema } from '@/lib/types';
+import {
+  type CreateTicketSchema,
+  createTicketSchema,
+  type TicketResponseSchema,
+} from '@/server/schemas/ticket-schemas';
 
 type Props = {
   id?: string;
-  ticketToEdit?: TicketSchema | null;
+  ticketToEdit?: TicketResponseSchema | null;
 };
 
 export function TicketForm({ id, ticketToEdit }: Props) {
   const router = useRouter();
   const isEditMode = !!id;
 
-  const form = useForm<FormTicketSchema>({
-    resolver: zodResolver(formTicketSchema),
+  const form = useForm<CreateTicketSchema>({
+    resolver: zodResolver(createTicketSchema),
     defaultValues: {
       title: '',
       description: '',
@@ -65,7 +69,7 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   const { createTicketMutation } = useCreateTicket();
   const { updateTicketMutation } = useUpdateTicket();
 
-  const onSubmit: SubmitHandler<FormTicketSchema> = (data) => {
+  const onSubmit: SubmitHandler<CreateTicketSchema> = (data) => {
     const mutationOptions = {
       onSuccess: handleSuccess,
       onError: handleError,
