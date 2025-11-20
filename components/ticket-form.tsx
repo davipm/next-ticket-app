@@ -94,140 +94,134 @@ export function TicketForm({ id, ticketToEdit }: Props) {
   }, [form, isEditMode, ticketToEdit]);
 
   return (
-    <div className="flex justify-center">
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full max-w-lg flex-col gap-5">
-        <h3 className="mt-5 text-3xl font-bold text-center">
-          {isEditMode ? 'Update your ticket' : 'Create new Ticket'}
-        </h3>
+    <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full max-w-lg flex-col gap-5">
+      <FieldGroup>
+        <Controller
+          name="title"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Title
+              </FieldLabel>
+              <Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-        <FieldGroup>
-          <Controller
-            name="title"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Title
-                </FieldLabel>
-                <Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
+        <Controller
+          name="description"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Description
+              </FieldLabel>
+              <Textarea {...field} id={field.name} aria-invalid={fieldState.invalid} />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-          <Controller
-            name="description"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Description
-                </FieldLabel>
-                <Textarea {...field} id={field.name} aria-invalid={fieldState.invalid} />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
-
-          <Controller
-            name="category"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Category
-                </FieldLabel>
-                <Select key={field.value} onValueChange={field.onChange} defaultValue={field.value}>
-                  <SelectTrigger className="w-full" id={field.name}>
-                    <SelectValue placeholder="Select a Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {TICKET_CATEGORIES.map((category) => (
-                      <SelectItem value={category} key={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
-
-          <Controller
-            name="priority"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Category
-                </FieldLabel>
-                <RadioGroup
-                  onValueChange={(value) => field.onChange(Number(value))}
-                  value={String(field.value)}
-                >
-                  {Array.from({ length: PRIORITY_LEVELS }, (_, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <RadioGroupItem id={`priority-${index}`} value={String(index + 1)} />
-                      <Label htmlFor={`priority-${index}`}>{index + 1}</Label>
-                    </div>
+        <Controller
+          name="category"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Category
+              </FieldLabel>
+              <Select key={field.value} onValueChange={field.onChange} defaultValue={field.value}>
+                <SelectTrigger className="w-full" id={field.name}>
+                  <SelectValue placeholder="Select a Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {TICKET_CATEGORIES.map((category) => (
+                    <SelectItem value={category} key={category}>
+                      {category}
+                    </SelectItem>
                   ))}
-                </RadioGroup>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-          <Controller
-            name="progress"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Progress
-                </FieldLabel>
-                <Slider
-                  min={PROGRESS_MIN}
-                  max={PROGRESS_MAX}
-                  step={PROGRESS_STEP}
-                  value={[field.value]}
-                  onValueChange={(value) => field.onChange(value[0])}
-                />
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
+        <Controller
+          name="priority"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Category
+              </FieldLabel>
+              <RadioGroup
+                onValueChange={(value) => field.onChange(Number(value))}
+                value={String(field.value)}
+              >
+                {Array.from({ length: PRIORITY_LEVELS }, (_, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <RadioGroupItem id={`priority-${index}`} value={String(index + 1)} />
+                    <Label htmlFor={`priority-${index}`}>{index + 1}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-          <Controller
-            name="status"
-            control={form.control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor={field.name} className="text-base">
-                  Status
-                </FieldLabel>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue="not started"
-                  value={field.value}
-                >
-                  {TICKET_STATUS.map(({ name, value }, index) => (
-                    <div key={index} className="flex items-center gap-3">
-                      <RadioGroupItem id={`status-${index}`} value={value} />
-                      <Label htmlFor={`status-${index}`}>{name}</Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-              </Field>
-            )}
-          />
-        </FieldGroup>
+        <Controller
+          name="progress"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Progress
+              </FieldLabel>
+              <Slider
+                min={PROGRESS_MIN}
+                max={PROGRESS_MAX}
+                step={PROGRESS_STEP}
+                value={[field.value]}
+                onValueChange={(value) => field.onChange(value[0])}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-        <Button type="submit" className="mt-5 w-full hover:cursor-pointer">
-          {isEditMode ? 'Update Ticket' : 'Create Ticket'}
-        </Button>
-      </form>
-    </div>
+        <Controller
+          name="status"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name} className="text-base">
+                Status
+              </FieldLabel>
+              <RadioGroup
+                onValueChange={field.onChange}
+                defaultValue="not started"
+                value={field.value}
+              >
+                {TICKET_STATUS.map(({ name, value }, index) => (
+                  <div key={index} className="flex items-center gap-3">
+                    <RadioGroupItem id={`status-${index}`} value={value} />
+                    <Label htmlFor={`status-${index}`}>{name}</Label>
+                  </div>
+                ))}
+              </RadioGroup>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+      </FieldGroup>
+
+      <Button type="submit" className="mt-5 w-full hover:cursor-pointer">
+        {isEditMode ? 'Update Ticket' : 'Create Ticket'}
+      </Button>
+    </form>
   );
 }
